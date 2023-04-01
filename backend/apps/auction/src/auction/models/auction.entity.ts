@@ -44,7 +44,7 @@ export class Auction extends BaseEntity {
   @ApiProperty()
   image: string;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
+  @Column({ type: 'decimal', precision: 10, scale: 2, default: 1 })
   price: number;
 
   @Column()
@@ -53,5 +53,9 @@ export class Auction extends BaseEntity {
 
   @Column({ default: null })
   @ApiProperty()
-  offers: string;
+  bids: string;
+
+  @Column({ default: 0 })
+  @ApiProperty()
+  status: boolean;
 }

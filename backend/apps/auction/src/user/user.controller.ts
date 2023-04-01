@@ -8,6 +8,7 @@ import {
   Request,
   Patch,
   Body,
+  Post,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { User } from '../auction/models/userTypeForDocs.entity';

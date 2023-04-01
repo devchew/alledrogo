@@ -17,11 +17,13 @@ import { UpdateAuctionDto } from './dto/update-auction.dto';
 import { AuctionService } from './auction.service';
 import { AuthGuard } from '../guards/auth-guard/AuthGuard.guards';
 import { AuthorisedRequest } from '../types/request/request.type';
+import { AddBidDto } from './dto/bid/add-bid.dto';
 
 @ApiTags('Auction')
 @Controller('auction')
 export class AuctionController {
   constructor(private readonly auctionService: AuctionService) {}
+
   @Get()
   @ApiResponse({
     status: 200,
@@ -112,5 +114,17 @@ export class AuctionController {
   })
   delete(@Request() request: AuthorisedRequest, @Param('id') id: string) {
     return this.auctionService.delete(request.user.id, id);
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
+  @Post(':id/bid')
+  addBid(
+    @Param('id') auctionId: string,
+    @Request() request: AuthorisedRequest,
+    @Body() addBidDto: AddBidDto,
+  ) {
+    const userId = request.user.id;
+    return this.auctionService.addBid(auctionId, userId, addBidDto);
   }
 }
