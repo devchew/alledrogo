@@ -7,19 +7,49 @@ import {
 import { Auction } from './models/auction.entity';
 import { CreateAuctionDto } from './dto/create-auction.dto';
 import { AddBidDto } from './dto/bid/add-bid.dto';
+import { Bid } from '../types/bid/bid.type';
 
 @Injectable()
 export class AuctionService {
-  async findAll() {
-    return await Auction.find();
+  getBids(auction: Auction): Bid[] {
+    return JSON.parse(auction.bids);
   }
 
+  async checkEndDate(auction: Auction) {
+    if (+auction.endDate < +new Date()) {
+      auction.status = true;
+      await auction.save();
+    }
+  }
+  async findAll() {
+    const auctions = await Auction.find();
+    const checkedAuctionDate = auctions.map((auction) => {
+      if (auction.status === false) this.checkEndDate(auction);
+      return {
+        ...auction,
+        bids: this.getBids(auction),
+      };
+    });
+    return [checkedAuctionDate];
+  }
+
+  setBids(auction: Auction, bids: Bid[]) {
+    auction.bids = JSON.stringify(bids);
+  }
   async findOne(id: string) {
     const auction = await Auction.findOne({
       where: { id },
     });
     if (auction === null) throw new NotFoundException();
+    if (auction.status === false) await this.checkEndDate(auction);
     return auction;
+  }
+
+  async getOneWithBidsArray(id: string) {
+    const auction = await this.findOne(id);
+    const bids = this.getBids(auction);
+    const auctionWithBidsArray = { ...auction, bids };
+    return auctionWithBidsArray as unknown as Auction;
   }
 
   async create(userId: string, createAuctionDto: CreateAuctionDto) {
@@ -42,17 +72,21 @@ export class AuctionService {
 
   async addBid(auctionId: string, userId: string, addBidDto: AddBidDto) {
     const auction = await this.findOne(auctionId);
-    if (+auction.endDate < +new Date()) {
+    if (auction.status) {
       throw new BadRequestException('Auction is finished');
     }
-    if (auction.price > addBidDto.price) {
+    if (auction.price >= addBidDto.price) {
       throw new BadRequestException('prise is too low');
     }
-    const bids = JSON.parse(auction.bids || '[]');
-    const newBid = { user: userId, price: addBidDto.price };
-    console.log(typeof bids);
-
-    auction.bids = JSON.stringify(bids.push(newBid));
+    const bids = this.getBids(auction);
+    const newBid = {
+      userId: userId,
+      price: addBidDto.price,
+      date: new Date(),
+    };
+    bids.push(newBid);
+    auction.price = addBidDto.price;
+    this.setBids(auction, bids);
     await auction.save();
     return;
   }

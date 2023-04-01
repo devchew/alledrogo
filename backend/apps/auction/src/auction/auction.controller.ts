@@ -45,7 +45,7 @@ export class AuctionController {
     description: 'Auction not found',
   })
   async findOne(@Param('id') id: string) {
-    return this.auctionService.findOne(id);
+    return this.auctionService.getOneWithBidsArray(id);
   }
 
   @Post()
