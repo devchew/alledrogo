@@ -23,3 +23,7 @@ cd frontend
 npm ci
 npm run dev
 ```
+
+## linki
+
+Front: http://localhost:9999
