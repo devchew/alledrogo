@@ -27,3 +27,5 @@ npm run dev
 ## linki
 
 Front: http://localhost:9999
+BE user/auth: http://localhost:3000
+BE auction: http://localhost:4000
