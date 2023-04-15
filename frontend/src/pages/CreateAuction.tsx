@@ -23,15 +23,15 @@ const CreateAuction: FunctionComponent = () => {
       price,
       shortDescription,
       title
-    }).then((respponse) => {
-      navigate(`/auction/${respponse.data.id}`);
+    }).then((response) => {
+      navigate(`/auction/${response.data.id}`);
     }).catch((response) => {
       console.log(response);
       if (response.code === 401) {
-        navigate("/");
+        // navigate("/");
       }
       if (response.response.data.message) {
-        setErrorMessages(response?.response?.data?.message);
+        // setErrorMessages(response?.response?.data?.message);
       }
     });
   };

@@ -30,7 +30,7 @@ export class AuctionService {
         bids: this.getBids(auction),
       };
     });
-    return [checkedAuctionDate];
+    return checkedAuctionDate;
   }
 
   setBids(auction: Auction, bids: Bid[]) {
