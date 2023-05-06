@@ -36,7 +36,7 @@ const CreateAuction: FunctionComponent = () => {
       navigate(`/auction/${response.data.id}`);
     }).catch((response) => {
       if (response.code === 401) {
-        // navigate("/");
+        navigate("/");
       }
       if (response.response.data.message) {
         setErrorMessages(response?.response?.data?.message);
