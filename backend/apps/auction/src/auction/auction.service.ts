@@ -22,15 +22,15 @@ export class AuctionService {
     }
   }
   async findAll() {
-    const auctions = await Auction.find();
+    const auctions = await Auction.find({where: {status: false}});
     const checkedAuctionDate = auctions.map((auction) => {
-      if (auction.status === false) this.checkEndDate(auction);
+      this.checkEndDate(auction);
       return {
         ...auction,
         bids: this.getBids(auction),
       };
     });
-    return checkedAuctionDate;
+    return checkedAuctionDate.filter(auction => auction.status == false);
   }
 
   setBids(auction: Auction, bids: Bid[]) {
