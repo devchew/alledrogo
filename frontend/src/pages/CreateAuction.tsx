@@ -62,18 +62,20 @@ const CreateAuction: FunctionComponent = () => {
             <span
               className="create-auction-details__status">koniec aukcji: {endDateToRelative(endDate)}</span>
             <span className="create-auction-details__title">
-              <input name="title" placeholder="Tytuł" type="text" /></span>
+              <input name="title" placeholder="Tytuł" type="text" minLength="3" maxLength="100" required /></span>
             <span className="create-auction-details__price">
               <input name="price" placeholder="1.00" type="number" min="0.00" max="10000.00" step="0.01"
               />&nbsp;zł
             </span>
             <span className="create-auction-details__shortdescription">
               <label>Krótki opis</label>
-              <textarea name="shortDescription" id="shortDescription" rows="4"></textarea>
+              <textarea name="shortDescription" id="shortDescription" rows="4" minLength="5" maxLength="250"
+                        required></textarea>
             </span>
             <span className="create-auction-details__description">
               <label>Opis</label>
-              <textarea name="longDescription" id="longDescription" rows="10"></textarea>
+              <textarea name="longDescription" id="longDescription" rows="10" minLength="5" maxLength="2500"
+                        required></textarea>
             </span>
             <div className="create-auction-details__bidding">
               <button type="submit" className="button">Dodaj ogłoszenie</button>
