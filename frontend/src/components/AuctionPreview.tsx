@@ -7,12 +7,11 @@ interface Props {
   auction: Auction;
 }
 
-const AuctionPreview: FunctionComponent<Props> = ({ auction }) => {
-
-  return (
+const AuctionPreview: FunctionComponent<Props> = ({ auction }) =>
+  (
     <Link className="auction-preview" to={`/auction/${auction.id}`}>
       <div className="auction-preview__image preview-image">
-        <img src={"https://picsum.photos/300/500"} alt={auction.title} className="preview-image__image" />
+        <img src={auction.image} alt={auction.title} className="preview-image__image" />
         <span className="preview-image__caption caption">
           <span className="caption__title">{auction.title}</span>
           <span className="caption__price">{auction.price} zł</span>
@@ -22,6 +21,5 @@ const AuctionPreview: FunctionComponent<Props> = ({ auction }) => {
       <div className="auction-preview__excerpt">{auction.shortDescription}</div>
     </Link>
   );
-};
 
 export default AuctionPreview;

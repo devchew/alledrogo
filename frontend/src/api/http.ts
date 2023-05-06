@@ -29,7 +29,6 @@ class HTTP {
   }
 
   private createNewInstance(token?: string) {
-    console.log("auth with token", token);
     return axios.create({
       baseURL: apiGateway,
       timeout: 1000,

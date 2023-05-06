@@ -23,6 +23,5 @@ export const createAuction = (auction: {
   "shortDescription": Auction["shortDescription"],
   "longDescription": Auction["longDescription"],
   "image": Auction["image"],
-  "price": Auction["price"],
-  "endDate": Auction["endDate"]
+  "price": Auction["price"]
 }) => http.post<Auction>(Endpoint_Auction_Create(), auction);

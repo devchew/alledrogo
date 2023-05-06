@@ -30,6 +30,7 @@
     right: 0;
     background-color: #ffffff;
     padding: 16px 22px;
+    max-width: 70%;
 }
 
 .auction-preview__date {
