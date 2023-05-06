@@ -25,6 +25,7 @@ class HTTP {
 
   public auth(token: string) {
     this.http = this.createNewInstance(token);
+    window.location.replace("/");
   }
 
   private createNewInstance(token?: string) {

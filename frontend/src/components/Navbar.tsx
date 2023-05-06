@@ -1,52 +1,33 @@
 import React, { FunctionComponent } from "react";
 import { NavLink } from "react-router-dom";
 import { IfAuth, useAuth } from "../context/auth";
+import "./Navbar.css";
 
+const navLinkStyle = ({ isActive, isPending }) =>
+  `navbar__link ${isPending ? "pending" : isActive ? "active" : ""}`;
+const navLinkStyleButton = ({ isActive, isPending }) =>
+  `navbar__button ${isPending ? "pending" : isActive ? "active" : ""}`;
 
 const Navbar: FunctionComponent = () => {
 
-  const { isAuth, logout } = useAuth();
+  const { logout } = useAuth();
 
   return (
-    <div style={{ boxShadow: "0 0 10px #333", display: "flex", marginBottom: "20px", gap: 10, padding: 15 }}>
-      <NavLink
-        to="/"
-        className={({ isActive, isPending }) =>
-          isPending ? "pending" : isActive ? "active" : ""
-        }
-      >
-        Alledrogo
-      </NavLink>
+    <div className="navbar">
+      <NavLink to="/" className="navbar__branding">Alledrogo</NavLink>
+      <div className="navbar__links">
+        <NavLink to="/auctions" className={navLinkStyle}>Aukcje</NavLink>
+        <NavLink to="/auctions" className={navLinkStyle}>Inne aukcje</NavLink>
+        <NavLink to="/auctions" className={navLinkStyle}>Jeszcze inne aukcje</NavLink>
+      </div>
 
       <IfAuth ifNot>
-        <NavLink
-          to="/register"
-          className={({ isActive, isPending }) =>
-            isPending ? "pending" : isActive ? "active" : ""
-          }
-        >
-          Rejestracja
-        </NavLink>
-        <NavLink
-          to="/login"
-          className={({ isActive, isPending }) =>
-            isPending ? "pending" : isActive ? "active" : ""
-          }
-        >
-          zaloguj
-        </NavLink>
+        <NavLink to="/register" className={navLinkStyle}>Rejestracja</NavLink>
+        <NavLink to="/login" className={navLinkStyle}>zaloguj</NavLink>
       </IfAuth>
       <IfAuth>
-        <button type="button" onClick={logout}>Wyloguj się</button>
-        <NavLink
-          style={{ marginLeft: "auto" }}
-          to="/auction/add"
-          className={({ isActive, isPending }) =>
-            isPending ? "pending" : isActive ? "active" : ""
-          }
-        >
-          Dodaj +
-        </NavLink>
+        <NavLink to="/auction/add" className={navLinkStyleButton}>Dodaj +</NavLink>
+        <button type="button" onClick={logout} className="navbar__link">Wyloguj się</button>
       </IfAuth>
     </div>
   );

@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter&family=Playfair+Display:wght@400;500&display=swap');
+
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+
+.button {
+    display: block;
+    font-size: 12px;
+    background-color: #030303;
+    padding: 12px 9px;
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.button:hover {
+    background-color: #444444;
+}
+
+.button--link {
+    background-color: transparent;
+    color: inherit;
+}
+
+.button--link:hover {
+    background-color: transparent;
+    text-decoration: underline;
+}
