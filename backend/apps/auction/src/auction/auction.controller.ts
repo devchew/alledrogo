@@ -93,8 +93,10 @@ export class AuctionController {
     status: 404,
     description: 'Auction not found',
   })
-  update(@Param('id') id: string, @Body() updateAuctionDto: UpdateAuctionDto) {
-    return {};
+  update(
+    @Request() request: AuthorisedRequest,
+    @Param('id') id: string, @Body() updateAuctionDto: UpdateAuctionDto, ) {
+    return this.auctionService.update(id, updateAuctionDto, request.user.id);
   }
 
   @Delete(':id')

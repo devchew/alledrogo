@@ -1,1 +1,1 @@
-export type Bid = { userId: string; price: number; date: Date };
+export type Bid = { userId: string; price: number; date: Date, name: string };
