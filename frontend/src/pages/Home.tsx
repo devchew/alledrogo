@@ -1,7 +1,10 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
 import { Auction, getAllAuctions } from "../api/auction";
 import { useAuth } from "../context/auth";
-import { Link } from "react-router-dom";
+import "./Home.css";
+import AuctionPreview from "../components/AuctionPreview";
+import Heading from "../components/Heading";
+import Hero from "../components/Hero";
 
 
 const Home: FunctionComponent = () => {
@@ -16,12 +19,15 @@ const Home: FunctionComponent = () => {
   }, []);
 
   return (<>
-    <h1>Alledrogo, nasze aukcje {isAuth ? "👍" : "❌"}</h1>
-    <ul>
+    <Hero />
+    <Heading>Alledrogo, nasze aukcje {isAuth ? "👍" : "❌"}</Heading>
+    <div className="home-auctions">
       {auctions.map(auction =>
-        <li key={auction.id}><Link to={`/auction/${auction.id}`}>{auction.title}</Link></li>
+        <div className="home-auctions__item">
+          <AuctionPreview auction={auction} />
+        </div>
       )}
-    </ul>
+    </div>
   </>);
 };
 

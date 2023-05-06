@@ -1,0 +1,12 @@
+.home-auctions {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 1100px;
+    margin: auto;
+    gap: 16px;
+}
+
+.home-auctions__item {
+    max-width: 33%;
+    flex: 1;
+}

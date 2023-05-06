@@ -1,0 +1,11 @@
+.heading {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 1100px;
+    margin: 64px auto;
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    color: #030303;
+    text-align: center;
+}
