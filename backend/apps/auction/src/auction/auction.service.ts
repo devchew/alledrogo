@@ -1,18 +1,26 @@
 import {
-  BadRequestException,
+  BadRequestException, Inject,
   Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+  NotFoundException
+} from "@nestjs/common";
 
-import { Auction } from './models/auction.entity';
-import { CreateAuctionDto } from './dto/create-auction.dto';
-import { AddBidDto } from './dto/bid/add-bid.dto';
-import { Bid } from '../types/bid/bid.type';
+import { Auction } from "./models/auction.entity";
+import { CreateAuctionDto } from "./dto/create-auction.dto";
+import { AddBidDto } from "./dto/bid/add-bid.dto";
+import { Bid } from "../types/bid/bid.type";
+import { UpdateAuctionDto } from "./dto/update-auction.dto";
+import { UserService } from "../user/user.service";
 
 @Injectable()
 export class AuctionService {
+
+
+  constructor(@Inject(UserService) private userService: UserService) {
+  }
+
   getBids(auction: Auction): Bid[] {
-    return JSON.parse(auction.bids);
+    console.log(auction.bids);
+    return auction.bids === null ? [] : JSON.parse(auction.bids);
   }
 
   async checkEndDate(auction: Auction) {
@@ -21,13 +29,14 @@ export class AuctionService {
       await auction.save();
     }
   }
+
   async findAll() {
-    const auctions = await Auction.find({where: {status: false}});
+    const auctions = await Auction.find({ where: { status: false } });
     const checkedAuctionDate = auctions.map((auction) => {
       this.checkEndDate(auction);
       return {
         ...auction,
-        bids: this.getBids(auction),
+        bids: this.getBids(auction)
       };
     });
     return checkedAuctionDate.filter(auction => auction.status == false);
@@ -36,9 +45,10 @@ export class AuctionService {
   setBids(auction: Auction, bids: Bid[]) {
     auction.bids = JSON.stringify(bids);
   }
+
   async findOne(id: string) {
     const auction = await Auction.findOne({
-      where: { id },
+      where: { id }
     });
     if (auction === null) throw new NotFoundException();
     if (auction.status === false) await this.checkEndDate(auction);
@@ -53,8 +63,8 @@ export class AuctionService {
   }
 
   async create(userId: string, createAuctionDto: CreateAuctionDto) {
-    const endDate = new Date()
-    endDate.setDate(endDate.getDate() + 30)
+    const endDate = new Date();
+    endDate.setDate(endDate.getDate() + 30);
     const createAuction = Auction.create({
       ...createAuctionDto,
       seller: userId,
@@ -66,31 +76,45 @@ export class AuctionService {
   async delete(userId: string, auctionId: string) {
     const { affected } = await Auction.delete({
       id: auctionId,
-      seller: userId,
+      seller: userId
     });
     if (affected === 0) {
-      throw new NotFoundException('Not found auction');
+      throw new NotFoundException("Not found auction");
     }
   }
 
   async addBid(auctionId: string, userId: string, addBidDto: AddBidDto) {
     const auction = await this.findOne(auctionId);
+    const user = await this.userService.findOneUser(userId);
+
+    if (auction.seller == userId) throw new BadRequestException('Sorry, You are owned')
+
     if (auction.status) {
-      throw new BadRequestException('Auction is finished');
+      throw new BadRequestException("You are the owner of the auction");
     }
     if (auction.price >= addBidDto.price) {
-      throw new BadRequestException('prise is too low');
+      throw new BadRequestException("prise is too low");
     }
     const bids = this.getBids(auction);
     const newBid = {
       userId: userId,
       price: addBidDto.price,
       date: new Date(),
+      name: user.firstName
     };
     bids.push(newBid);
     auction.price = addBidDto.price;
     this.setBids(auction, bids);
     await auction.save();
     return;
+  }
+
+  async update(id: string, updateAuctionDto: UpdateAuctionDto, sellerId: string) {
+    let auctionToBeUpdate = await this.findOne(id);
+    if (sellerId !== auctionToBeUpdate.seller) throw new BadRequestException();
+    auctionToBeUpdate = { ...auctionToBeUpdate, ...updateAuctionDto } as Auction;
+    await Auction.update({ id }, { ...updateAuctionDto });
+
+    return auctionToBeUpdate;
   }
 }
