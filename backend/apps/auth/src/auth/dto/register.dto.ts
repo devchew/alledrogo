@@ -4,16 +4,16 @@ import { IsEmail, Length } from 'class-validator';
 export class RegisterDto {
   @ApiProperty({
     minLength: 3,
-    maxLength: 15,
+    maxLength: 50,
   })
-  @Length(3, 15)
+  @Length(3, 50)
   firstName: string;
 
   @ApiProperty({
     minLength: 3,
-    maxLength: 15,
+    maxLength: 50,
   })
-  @Length(3, 15)
+  @Length(3, 50)
   lastName: string;
 
   @ApiProperty()

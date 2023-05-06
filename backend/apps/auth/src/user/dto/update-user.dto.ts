@@ -4,12 +4,12 @@ import { IsEmail, IsOptional, Length } from 'class-validator';
 export class UpdateUserDto {
   @ApiProperty()
   @IsOptional()
-  @Length(3, 15)
+  @Length(3, 50)
   firstName?: string;
 
   @ApiProperty()
   @IsOptional()
-  @Length(3, 15)
+  @Length(3, 50)
   lastName?: string;
 
   @ApiProperty()
