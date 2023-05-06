@@ -9,7 +9,7 @@ export class JwtService {
   sign(id: string, extendExpiration = false) {
     return this.nestJwtService.sign(
       { id },
-      { expiresIn: extendExpiration ? '3d' : '5m', secret: JWT_SECRET },
+      { expiresIn: extendExpiration ? '30d' : '30d', secret: JWT_SECRET },
     );
   }
 }

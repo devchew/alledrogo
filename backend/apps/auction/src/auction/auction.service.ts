@@ -22,15 +22,15 @@ export class AuctionService {
     }
   }
   async findAll() {
-    const auctions = await Auction.find();
+    const auctions = await Auction.find({where: {status: false}});
     const checkedAuctionDate = auctions.map((auction) => {
-      if (auction.status === false) this.checkEndDate(auction);
+      this.checkEndDate(auction);
       return {
         ...auction,
         bids: this.getBids(auction),
       };
     });
-    return checkedAuctionDate;
+    return checkedAuctionDate.filter(auction => auction.status == false);
   }
 
   setBids(auction: Auction, bids: Bid[]) {
@@ -53,9 +53,12 @@ export class AuctionService {
   }
 
   async create(userId: string, createAuctionDto: CreateAuctionDto) {
+    const endDate = new Date()
+    endDate.setDate(endDate.getDate() + 30)
     const createAuction = Auction.create({
       ...createAuctionDto,
       seller: userId,
+      endDate
     });
     return await createAuction.save();
   }
