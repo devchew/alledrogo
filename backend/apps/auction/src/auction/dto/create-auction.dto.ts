@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Length, IsNumber, IsString } from 'class-validator';
+import { Length, IsNumber, IsString, IsUrl } from "class-validator";
 
 export class CreateAuctionDto {
   @ApiProperty()
@@ -20,5 +20,6 @@ export class CreateAuctionDto {
 
   @ApiProperty()
   @IsNumber()
+  @IsUrl()
   price: number;
 }

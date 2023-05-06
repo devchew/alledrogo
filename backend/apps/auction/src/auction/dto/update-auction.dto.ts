@@ -2,8 +2,8 @@ import { ApiProperty } from '@nestjs/swagger';
 import {
   Length,
   IsOptional,
-  IsString,
-} from 'class-validator';
+  IsString, IsUrl
+} from "class-validator";
 
 export class UpdateAuctionDto {
   @ApiProperty()
@@ -24,5 +24,6 @@ export class UpdateAuctionDto {
   @ApiProperty()
   @IsOptional()
   @IsString()
+  @IsUrl()
   image?: string;
 }

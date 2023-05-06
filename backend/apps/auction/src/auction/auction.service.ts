@@ -19,7 +19,6 @@ export class AuctionService {
   }
 
   getBids(auction: Auction): Bid[] {
-    console.log(auction.bids);
     return auction.bids === null ? [] : JSON.parse(auction.bids);
   }
 
@@ -90,7 +89,7 @@ export class AuctionService {
     if (auction.seller == userId) throw new BadRequestException('Sorry, You are owned')
 
     if (auction.status) {
-      throw new BadRequestException("You are the owner of the auction");
+      throw new BadRequestException("Aukcja jest już zakończona");
     }
     if (auction.price >= addBidDto.price) {
       throw new BadRequestException("prise is too low");
