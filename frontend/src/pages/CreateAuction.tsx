@@ -1,15 +1,25 @@
 import React, { FunctionComponent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createAuction } from "../api/auction";
+import Heading from "../components/Heading";
+import "./CreateAuction.css";
+import { endDateToRelative } from "../helpers";
 
 const CreateAuction: FunctionComponent = () => {
   const [errorMessages, setErrorMessages] = useState<string[]>([]);
+  const [imagePreview, setImagePreview] = useState<string | undefined>(undefined);
+  const chanegImagePreview = (event) => {
+    setImagePreview(event.target.value || undefined);
+  };
   const navigate = useNavigate();
+
+  const today = new Date(); // Now
+  const endDate = new Date(today.setDate(today.getDate() + 30)).toISOString();
+
   const onAdd = (event: SubmitEvent) => {
     event.preventDefault();
 
     const data = new FormData(event.target as HTMLFormElement);
-    const endDate = new Date(data.get("endDate").toString());
     const image = data.get("image").toString();
     const longDescription = data.get("longDescription").toString();
     const price = parseInt(data.get("price").toString(), 10);
@@ -17,7 +27,6 @@ const CreateAuction: FunctionComponent = () => {
     const title = data.get("title").toString();
 
     createAuction({
-      endDate,
       image,
       longDescription,
       price,
@@ -26,28 +35,52 @@ const CreateAuction: FunctionComponent = () => {
     }).then((response) => {
       navigate(`/auction/${response.data.id}`);
     }).catch((response) => {
-      console.log(response);
       if (response.code === 401) {
-        // navigate("/");
+        navigate("/");
       }
       if (response.response.data.message) {
-        // setErrorMessages(response?.response?.data?.message);
+        setErrorMessages(response?.response?.data?.message);
       }
     });
   };
-  return (<>
-    <h1>Dodaj aukcje</h1>
-    {errorMessages.map(error => <div style={{ color: "red" }}>{error}</div>)}
-    <form onSubmit={onAdd} style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-      <input name="title" placeholder="title" type="text" />
-      <input name="image" placeholder="image" type="text" />
-      <input name="shortDescription" placeholder="shortDescription" type="text" />
-      <input name="longDescription" placeholder="longDescription" type="text" />
-      <input name="endDate" placeholder="endDate" type="date" />
-      <input name="price" placeholder="price" type="text" />
-      <button type="submit">zrób</button>
-    </form>
-  </>);
+  return (
+    <>
+      <Heading>Dodaj aukcję</Heading>
+      {errorMessages.map(error => <div style={{ color: "red" }}>{error}</div>)}
+      <form onSubmit={onAdd}>
+        <div className="create-auction-page">
+          <div className="create-auction-page__image"
+               style={imagePreview && { backgroundImage: `url(${imagePreview})` }}>
+            <span className="create-auction-page__image-backdrop">
+              URL obrazka:&nbsp;
+              <input name="image" placeholder="image" type="text" onChange={chanegImagePreview} />
+            </span>
+          </div>
+          <div className="create-auction-page__details create-auction-details">
+            <span
+              className="create-auction-details__status">koniec aukcji: {endDateToRelative(endDate)}</span>
+            <span className="create-auction-details__title">
+              <input name="title" placeholder="Tytuł" type="text" /></span>
+            <span className="create-auction-details__price">
+              <input name="price" placeholder="1.00" type="number" min="0.00" max="10000.00" step="0.01"
+              />&nbsp;zł
+            </span>
+            <span className="create-auction-details__shortdescription">
+              <label>Krótki opis</label>
+              <textarea name="shortDescription" id="shortDescription" rows="4"></textarea>
+            </span>
+            <span className="create-auction-details__description">
+              <label>Opis</label>
+              <textarea name="longDescription" id="longDescription" rows="10"></textarea>
+            </span>
+            <div className="create-auction-details__bidding">
+              <button type="submit" className="button">Dodaj ogłoszenie</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </>
+  );
 };
 
 export default CreateAuction;
