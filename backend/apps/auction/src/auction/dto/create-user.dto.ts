@@ -3,11 +3,11 @@ import { IsEmail, Length } from 'class-validator';
 
 export class CreateUserDto {
   @ApiProperty()
-  @Length(3, 15)
+  @Length(3, 50)
   firstName: string;
 
   @ApiProperty()
-  @Length(3, 15)
+  @Length(3, 50)
   lastName: string;
 
   @ApiProperty()

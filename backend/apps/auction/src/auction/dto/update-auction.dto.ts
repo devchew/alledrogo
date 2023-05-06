@@ -10,17 +10,17 @@ import {
 export class UpdateAuctionDto {
   @ApiProperty()
   @IsOptional()
-  @Length(3, 50)
+  @Length(3, 100)
   title?: string;
 
   @ApiProperty()
   @IsOptional()
-  @Length(5, 15)
+  @Length(5, 250)
   shortDescription?: string;
 
   @ApiProperty()
   @IsOptional()
-  @Length(5, 250)
+  @Length(5, 2500)
   longDescription?: string;
 
   @ApiProperty()
