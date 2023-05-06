@@ -46,7 +46,9 @@ const CreateAuction: FunctionComponent = () => {
   return (
     <>
       <Heading>Dodaj aukcję</Heading>
-      {errorMessages.map(error => <div style={{ color: "red" }}>{error}</div>)}
+      {errorMessages.length > 0 && <Heading>
+        {errorMessages.map(error => <div style={{ color: "red" }}>{error}</div>)}
+      </Heading>}
       <form onSubmit={onAdd}>
         <div className="create-auction-page">
           <div className="create-auction-page__image"
