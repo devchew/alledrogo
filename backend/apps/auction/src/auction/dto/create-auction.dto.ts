@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Length, IsNumber, IsDateString, IsString } from 'class-validator';
+import { Length, IsNumber, IsString } from 'class-validator';
 
 export class CreateAuctionDto {
   @ApiProperty()
@@ -21,8 +21,4 @@ export class CreateAuctionDto {
   @ApiProperty()
   @IsNumber()
   price: number;
-
-  @ApiProperty()
-  @IsDateString()
-  endDate: Date;
 }

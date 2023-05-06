@@ -53,9 +53,12 @@ export class AuctionService {
   }
 
   async create(userId: string, createAuctionDto: CreateAuctionDto) {
+    const endDate = new Date()
+    endDate.setDate(endDate.getDate() + 30)
     const createAuction = Auction.create({
       ...createAuctionDto,
       seller: userId,
+      endDate
     });
     return await createAuction.save();
   }

@@ -2,8 +2,6 @@ import { ApiProperty } from '@nestjs/swagger';
 import {
   Length,
   IsOptional,
-  IsNumber,
-  IsDateString,
   IsString,
 } from 'class-validator';
 
@@ -27,14 +25,4 @@ export class UpdateAuctionDto {
   @IsOptional()
   @IsString()
   image?: string;
-
-  @ApiProperty()
-  @IsOptional()
-  @IsNumber()
-  price?: number;
-
-  @ApiProperty()
-  @IsOptional()
-  @IsDateString()
-  endDate?: Date;
 }
