@@ -32,7 +32,7 @@ export class AuthGuard implements CanActivate {
       request['user']['authorization'] = authorization;
       return true;
     } catch (e) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException("Brak dostępu");
     }
   }
 }

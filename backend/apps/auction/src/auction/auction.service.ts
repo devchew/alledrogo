@@ -49,7 +49,7 @@ export class AuctionService {
     const auction = await Auction.findOne({
       where: { id }
     });
-    if (auction === null) throw new NotFoundException();
+    if (auction === null) throw new NotFoundException('Nie znaleziono aukcji');
     if (auction.status === false) await this.checkEndDate(auction);
     return auction;
   }
@@ -78,7 +78,7 @@ export class AuctionService {
       seller: userId
     });
     if (affected === 0) {
-      throw new NotFoundException("Not found auction");
+      throw new NotFoundException("Nie znaleziono aukcji");
     }
   }
 
@@ -86,13 +86,13 @@ export class AuctionService {
     const auction = await this.findOne(auctionId);
     const user = await this.userService.findOneUser(userId);
 
-    if (auction.seller == userId) throw new BadRequestException('Sorry, You are owned')
+    if (auction.seller == userId) throw new BadRequestException("Nie możesz licytować własnej aukcji...");
 
     if (auction.status) {
       throw new BadRequestException("Aukcja jest już zakończona");
     }
     if (auction.price >= addBidDto.price) {
-      throw new BadRequestException("prise is too low");
+      throw new BadRequestException("Twoja oferta jest za niska");
     }
     const bids = this.getBids(auction);
     const newBid = {
@@ -110,7 +110,7 @@ export class AuctionService {
 
   async update(id: string, updateAuctionDto: UpdateAuctionDto, sellerId: string) {
     let auctionToBeUpdate = await this.findOne(id);
-    if (sellerId !== auctionToBeUpdate.seller) throw new BadRequestException();
+    if (sellerId !== auctionToBeUpdate.seller) throw new BadRequestException('Brak dostępu');
     auctionToBeUpdate = { ...auctionToBeUpdate, ...updateAuctionDto } as Auction;
     await Auction.update({ id }, { ...updateAuctionDto });
 

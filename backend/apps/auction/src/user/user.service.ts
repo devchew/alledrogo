@@ -4,12 +4,12 @@ import {
   Injectable,
   InternalServerErrorException,
   NotFoundException,
-  UnauthorizedException,
-} from '@nestjs/common';
-import { Config } from '../config/config';
-import { RequestUser } from '../types/request/request.type';
-import { UpdateUserDto } from '../auction/dto/user/update-user.dto';
-import { HttpService } from '@nestjs/axios';
+  UnauthorizedException
+} from "@nestjs/common";
+import { Config } from "../config/config";
+import { RequestUser } from "../types/request/request.type";
+import { UpdateUserDto } from "../auction/dto/user/update-user.dto";
+import { HttpService } from "@nestjs/axios";
 
 @Injectable()
 export class UserService {
@@ -18,25 +18,25 @@ export class UserService {
   async getAllUsers() {
     try {
       const usersRes = await this.httpService.axiosRef.get(
-        `${Config.userApi}/user`,
+        `${Config.userApi}/user`
       );
       return usersRes.data;
     } catch (e) {
-      throw new InternalServerErrorException();
+      throw new InternalServerErrorException("Ops. Spróbuj ponowanie później");
     }
   }
 
   async findOneUser(id: string) {
     try {
       const userRes = await this.httpService.axiosRef.get(
-        `${Config.userApi}/user/${id}`,
+        `${Config.userApi}/user/${id}`
       );
       return userRes.data;
     } catch (e) {
       if (e.response.status === 404) {
-        throw new NotFoundException();
+        throw new NotFoundException("Nie znaleziono użytkownika");
       }
-      throw new InternalServerErrorException();
+      throw new InternalServerErrorException("Ops. Spróbuj ponowanie później");
     }
   }
 
@@ -44,21 +44,21 @@ export class UserService {
     try {
       await this.httpService.axiosRef.delete(`${Config.userApi}/user`, {
         headers: {
-          authorization,
-        },
+          authorization
+        }
       });
     } catch (e) {
       if (e.response.status === 401) {
-        throw new UnauthorizedException('Not found user');
+        throw new UnauthorizedException("Not found user");
       } else {
-        throw new InternalServerErrorException();
+        throw new InternalServerErrorException("Ops. Spróbuj ponowanie później");
       }
     }
   }
 
   async updateUser(
     { authorization }: RequestUser,
-    updateUserDto: UpdateUserDto,
+    updateUserDto: UpdateUserDto
   ) {
     try {
       const updateUser = await this.httpService.axiosRef.patch(
@@ -66,18 +66,18 @@ export class UserService {
         updateUserDto,
         {
           headers: {
-            authorization,
-          },
-        },
+            authorization
+          }
+        }
       );
       return updateUser.data;
     } catch (e) {
       if (e.response.status === 401) {
-        throw new UnauthorizedException();
+        throw new UnauthorizedException("Brak dostępu");
       } else if (e.response.status === 400) {
-        throw new BadRequestException('Validation failed');
+        throw new BadRequestException("Błąd walidacji");
       } else {
-        throw new InternalServerErrorException();
+        throw new InternalServerErrorException("Ops. Spróbuj ponowanie później");
       }
     }
   }

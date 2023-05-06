@@ -19,7 +19,7 @@ export class AuthService {
     });
 
     if (!user) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('Brak Dostępu');
     }
 
     const isValidPassword = await argon2.verify(
@@ -28,7 +28,7 @@ export class AuthService {
     );
 
     if (!isValidPassword) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('Brak Dostępu');
     }
 
     const accessToken = this.jwtService.sign(user.id);
@@ -42,7 +42,7 @@ export class AuthService {
     });
 
     if (!user) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('Brak Dostępu');
     }
 
     const isValidPassword = await argon2.verify(
@@ -51,7 +51,7 @@ export class AuthService {
     );
 
     if (!isValidPassword) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('Brak Dostępu');
     }
     return this.usersService.updatePassword(userId, {
       password: changePasswordDto.newPassword,
