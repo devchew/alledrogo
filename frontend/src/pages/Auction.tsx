@@ -22,7 +22,10 @@ const Auction: FunctionComponent = () => {
 
   return (<div className="auction-page">
       <div className="auction-page__images auction-images">
-        <img src={auction.image} alt={auction.title + "image"} className="auction-images__item" />
+        {auction.image.trim() !== ""
+          ? <img src={auction.image} alt={auction.title} className="auction-images__item" />
+          : <div className="auction-images__placeholder">{auction.title}</div>
+        }
       </div>
       <div className="auction-page__details auction-details">
         <span

@@ -11,7 +11,10 @@ const AuctionPreview: FunctionComponent<Props> = ({ auction }) =>
   (
     <Link className="auction-preview" to={`/auction/${auction.id}`}>
       <div className="auction-preview__image preview-image">
-        <img src={auction.image} alt={auction.title} className="preview-image__image" />
+        {auction.image.trim() !== ""
+          ? <img src={auction.image} alt={auction.title} className="preview-image__image" />
+          : <div className="preview-image__placeholder">{auction.title}</div>
+        }
         <span className="preview-image__caption caption">
           <span className="caption__title">{auction.title}</span>
           <span className="caption__price">{auction.price} zł</span>

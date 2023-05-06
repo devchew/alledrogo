@@ -24,6 +24,19 @@
     width: auto;
 }
 
+.preview-image__placeholder {
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+    background-color: #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+}
+
 .preview-image__caption {
     position: absolute;
     bottom: 20%;

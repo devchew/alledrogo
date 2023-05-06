@@ -10,12 +10,12 @@
 
 .auction-page__images {
     overflow: hidden;
-    max-width: 50%;
+    width: 50%;
 }
 
 .auction-page__details {
     overflow: hidden;
-    max-width: 50%;
+    width: 50%;
 }
 
 .auction-images {
@@ -25,6 +25,19 @@
 .auction-images__item {
     max-width: 100%;
     object-fit: cover;
+}
+
+.auction-images__placeholder {
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+    background-color: #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
 }
 
 .auction-details {
