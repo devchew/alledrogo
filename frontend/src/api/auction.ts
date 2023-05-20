@@ -1,4 +1,10 @@
-import { Endpoint_Auction_All, Endpoint_Auction_Create, Endpoint_Auction_Single, http } from "./http";
+import {
+  Endpoint_Auction_All,
+  Endpoint_Auction_Bid,
+  Endpoint_Auction_Create,
+  Endpoint_Auction_Single,
+  http
+} from "./http";
 
 export interface Auction {
   id: string;
@@ -25,3 +31,5 @@ export const createAuction = (auction: {
   "image": Auction["image"],
   "price": Auction["price"]
 }) => http.post<Auction>(Endpoint_Auction_Create(), auction);
+
+export const bidAuction = (id: Auction["id"], price: Auction["price"]) => http.post(Endpoint_Auction_Bid(id), { price });

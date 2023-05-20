@@ -1,20 +1,49 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Auction as AuctionType, getSingleAuction } from "../api/auction";
+import { Auction as AuctionType, bidAuction, getSingleAuction } from "../api/auction";
 import "./Auction.css";
 import { endDateToRelative } from "../helpers";
 
 const Auction: FunctionComponent = () => {
   const [auction, setAuction] = useState<AuctionType>();
+  const [errorMessages, setErrorMessages] = useState<string[]>([]);
 
   const { id } = useParams();
   const navigate = useNavigate();
 
-  useEffect(() => {
+  const loadAuction = () => {
     getSingleAuction(id)
       .then(response => setAuction(response.data))
       .catch(() => navigate("/"));
-  }, []);
+  };
+
+  useEffect(loadAuction, []);
+
+  const onBid = (event: SubmitEvent) => {
+    event.preventDefault();
+
+    const data = new FormData(event.target as HTMLFormElement);
+    const price = parseInt(data.get("price").toString(), 10);
+
+    bidAuction(auction.id, price)
+      .then(() => {
+        loadAuction();
+        setErrorMessages([]);
+      })
+      .catch((response) => {
+        if (response.code === 400) {
+          loadAuction();
+        }
+        if (response.code === 401) {
+          navigate("/");
+        }
+        if (response.response.data.message) {
+          setErrorMessages([response?.response?.data?.message]);
+        }
+        loadAuction();
+      });
+
+  };
 
   if (!auction) {
     return <h1>loading</h1>;
@@ -31,8 +60,23 @@ const Auction: FunctionComponent = () => {
         <span
           className="auction-details__status">koniec aukcji: {endDateToRelative(auction.endDate)}</span>
         <span className="auction-details__title">{auction.title}</span>
-        <span className="auction-details__price">{auction.price}</span>
+        {errorMessages.length > 0 && errorMessages.map(error => <div style={{ color: "red" }}>{error}</div>)}
+        <form className="auction-details__price auction-bid" onSubmit={onBid}>
+          <input
+            className="auction-bid__input"
+            name="price"
+            placeholder="1.00"
+            defaultValue={auction.price}
+            onChange={() => setErrorMessages([])}
+            type="number"
+            min={auction.price}
+            max="90000.00"
+            step="0.01"
+          />&nbsp;zł
+          <button type="submit" className="button auction-bid__submit">Podbij</button>
+        </form>
         <div className="auction-details__bidding">
+          {auction.longDescription}
           <ul>
             <li>{auction.status}</li>
             <li>{auction.endDate}</li>
