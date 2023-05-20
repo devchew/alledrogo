@@ -1,22 +1,20 @@
 import {
-  BadRequestException, Inject,
+  BadRequestException,
+  Inject,
   Injectable,
-  NotFoundException
-} from "@nestjs/common";
+  NotFoundException,
+} from '@nestjs/common';
 
-import { Auction } from "./models/auction.entity";
-import { CreateAuctionDto } from "./dto/create-auction.dto";
-import { AddBidDto } from "./dto/bid/add-bid.dto";
-import { Bid } from "../types/bid/bid.type";
-import { UpdateAuctionDto } from "./dto/update-auction.dto";
-import { UserService } from "../user/user.service";
+import { Auction } from './models/auction.entity';
+import { CreateAuctionDto } from './dto/create-auction.dto';
+import { AddBidDto } from './dto/bid/add-bid.dto';
+import { Bid } from '../types/bid/bid.type';
+import { UpdateAuctionDto } from './dto/update-auction.dto';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class AuctionService {
-
-
-  constructor(@Inject(UserService) private userService: UserService) {
-  }
+  constructor(@Inject(UserService) private userService: UserService) {}
 
   getBids(auction: Auction): Bid[] {
     return auction.bids === null ? [] : JSON.parse(auction.bids);
@@ -29,16 +27,17 @@ export class AuctionService {
     }
   }
 
-  async findAll() {
+  async findAll(userId: string | undefined) {
     const auctions = await Auction.find({ where: { status: false } });
     const checkedAuctionDate = auctions.map((auction) => {
       this.checkEndDate(auction);
       return {
         ...auction,
-        bids: this.getBids(auction)
+        bids: this.getBids(auction),
+        myAuction: auction.seller === userId,
       };
     });
-    return checkedAuctionDate.filter(auction => auction.status == false);
+    return checkedAuctionDate.filter((auction) => auction.status == false);
   }
 
   setBids(auction: Auction, bids: Bid[]) {
@@ -47,17 +46,21 @@ export class AuctionService {
 
   async findOne(id: string) {
     const auction = await Auction.findOne({
-      where: { id }
+      where: { id },
     });
     if (auction === null) throw new NotFoundException('Nie znaleziono aukcji');
     if (auction.status === false) await this.checkEndDate(auction);
     return auction;
   }
 
-  async getOneWithBidsArray(id: string) {
+  async getOneWithBidsArray(id: string, userId: string | undefined) {
     const auction = await this.findOne(id);
     const bids = this.getBids(auction);
-    const auctionWithBidsArray = { ...auction, bids };
+    const auctionWithBidsArray = {
+      ...auction,
+      bids,
+      myAuction: auction.seller === userId,
+    };
     return auctionWithBidsArray as unknown as Auction;
   }
 
@@ -67,7 +70,7 @@ export class AuctionService {
     const createAuction = Auction.create({
       ...createAuctionDto,
       seller: userId,
-      endDate
+      endDate,
     });
     return await createAuction.save();
   }
@@ -75,10 +78,10 @@ export class AuctionService {
   async delete(userId: string, auctionId: string) {
     const { affected } = await Auction.delete({
       id: auctionId,
-      seller: userId
+      seller: userId,
     });
     if (affected === 0) {
-      throw new NotFoundException("Nie znaleziono aukcji");
+      throw new NotFoundException('Nie znaleziono aukcji');
     }
   }
 
@@ -86,20 +89,21 @@ export class AuctionService {
     const auction = await this.findOne(auctionId);
     const user = await this.userService.findOneUser(userId);
 
-    if (auction.seller == userId) throw new BadRequestException("Nie możesz licytować własnej aukcji...");
+    if (auction.seller == userId)
+      throw new BadRequestException('Nie możesz licytować własnej aukcji...');
 
     if (auction.status) {
-      throw new BadRequestException("Aukcja jest już zakończona");
+      throw new BadRequestException('Aukcja jest już zakończona');
     }
     if (auction.price >= addBidDto.price) {
-      throw new BadRequestException("Twoja oferta jest za niska");
+      throw new BadRequestException('Twoja oferta jest za niska');
     }
     const bids = this.getBids(auction);
     const newBid = {
       userId: userId,
       price: addBidDto.price,
       date: new Date(),
-      name: user.firstName
+      name: user.firstName,
     };
     bids.push(newBid);
     auction.price = addBidDto.price;
@@ -108,10 +112,18 @@ export class AuctionService {
     return;
   }
 
-  async update(id: string, updateAuctionDto: UpdateAuctionDto, sellerId: string) {
+  async update(
+    id: string,
+    updateAuctionDto: UpdateAuctionDto,
+    sellerId: string,
+  ) {
     let auctionToBeUpdate = await this.findOne(id);
-    if (sellerId !== auctionToBeUpdate.seller) throw new BadRequestException('Brak dostępu');
-    auctionToBeUpdate = { ...auctionToBeUpdate, ...updateAuctionDto } as Auction;
+    if (sellerId !== auctionToBeUpdate.seller)
+      throw new BadRequestException('Brak dostępu');
+    auctionToBeUpdate = {
+      ...auctionToBeUpdate,
+      ...updateAuctionDto,
+    } as Auction;
     await Auction.update({ id }, { ...updateAuctionDto });
 
     return auctionToBeUpdate;
