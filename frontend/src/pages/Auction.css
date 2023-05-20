@@ -64,6 +64,8 @@
 }
 
 .auction-details__price {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
 }
 
 .auction-details__bidding {
@@ -75,8 +77,7 @@
     flex-direction: row;
     align-items: flex-end;
     gap: 9px;
-    font-family: 'Playfair Display', serif;
-    font-size: 48px;
+
     position: relative;
     margin-top: 16px;
 }

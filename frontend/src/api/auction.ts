@@ -17,6 +17,7 @@ export interface Auction {
   price: number;
   shortDescription: string;
   longDescription: string;
+  myAuction: boolean;
 }
 
 

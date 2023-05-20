@@ -64,21 +64,28 @@ const Auction: FunctionComponent = () => {
           className="auction-details__status">koniec aukcji: {endDateToRelative(auction.endDate)}</span>
         <span className="auction-details__title">{auction.title}</span>
         {errorMessages.length > 0 && errorMessages.map(error => <div style={{ color: "red" }}>{error}</div>)}
-        <form className="auction-details__price auction-bid" onSubmit={onBid}>
-          {success && <div className="auction-bid__success">Twoja oferta jest obecnie najwyższa</div>}
-          <input
-            className="auction-bid__input"
-            name="price"
-            placeholder="1.00"
-            defaultValue={auction.price}
-            onChange={() => setErrorMessages([])}
-            type="number"
-            min={auction.price}
-            max="90000.00"
-            step="0.01"
-          />&nbsp;zł
-          <button type="submit" className="button auction-bid__submit">Podbij</button>
-        </form>
+
+        {auction.myAuction ?
+          <span className="auction-details__price">
+            {auction.price}&nbsp;zł
+          </span>
+          :
+          <form className="auction-details__price auction-bid" onSubmit={onBid}>
+            {success && <div className="auction-bid__success">Twoja oferta jest obecnie najwyższa</div>}
+            <input
+              className="auction-bid__input"
+              name="price"
+              placeholder="1.00"
+              defaultValue={auction.price}
+              onChange={() => setErrorMessages([])}
+              type="number"
+              min={auction.price}
+              max="90000.00"
+              step="0.01"
+            />&nbsp;zł
+            <button type="submit" className="button auction-bid__submit">Podbij</button>
+          </form>
+        }
         <div className="auction-details__bidding">
           {auction.longDescription}
           <ul>
