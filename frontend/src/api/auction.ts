@@ -6,17 +6,25 @@ import {
   http
 } from "./http";
 
+export interface Bid {
+  date: Date;
+  name: string;
+  price: number;
+  userId: string;
+}
+
 export interface Auction {
   id: string;
   createdAt: Date;
   title: string;
   image: string;
   endDate: Date;
-  bids: string;
+  bids: Bid[];
   status?: boolean;
   price: number;
   shortDescription: string;
   longDescription: string;
+  myAuction: boolean;
 }
 
 

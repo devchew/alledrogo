@@ -64,6 +64,8 @@
 }
 
 .auction-details__price {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
 }
 
 .auction-details__bidding {
@@ -75,8 +77,30 @@
     flex-direction: row;
     align-items: flex-end;
     gap: 9px;
-    font-family: 'Playfair Display', serif;
-    font-size: 48px;
+
+    position: relative;
+    margin-top: 16px;
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+.auction-bid__success {
+    color: #1b831b;
+    position: absolute;
+    top: -28px;
+    font-size: 25px;
+    opacity: 0;
+    animation: fadeOut 3s alternate;
 }
 
 .auction-bid__input {

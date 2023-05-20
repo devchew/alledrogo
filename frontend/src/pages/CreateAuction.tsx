@@ -64,7 +64,7 @@ const CreateAuction: FunctionComponent = () => {
             <span className="create-auction-details__title">
               <input name="title" placeholder="Tytuł" type="text" minLength="3" maxLength="100" required /></span>
             <span className="create-auction-details__price">
-              <input name="price" placeholder="1.00" type="number" min="0.00" max="10000.00" step="0.01"
+              <input name="price" placeholder="1.00" type="number" min="0.00" max="10000.00" step="1"
               />&nbsp;zł
             </span>
             <span className="create-auction-details__shortdescription">
