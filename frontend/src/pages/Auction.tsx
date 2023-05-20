@@ -7,6 +7,7 @@ import { endDateToRelative } from "../helpers";
 const Auction: FunctionComponent = () => {
   const [auction, setAuction] = useState<AuctionType>();
   const [errorMessages, setErrorMessages] = useState<string[]>([]);
+  const [success, setSuccess] = useState<boolean>(false);
 
   const { id } = useParams();
   const navigate = useNavigate();
@@ -29,6 +30,7 @@ const Auction: FunctionComponent = () => {
       .then(() => {
         loadAuction();
         setErrorMessages([]);
+        setSuccess(true);
       })
       .catch((response) => {
         if (response.code === 400) {
@@ -41,6 +43,7 @@ const Auction: FunctionComponent = () => {
           setErrorMessages([response?.response?.data?.message]);
         }
         loadAuction();
+        setSuccess(false);
       });
 
   };
@@ -62,6 +65,7 @@ const Auction: FunctionComponent = () => {
         <span className="auction-details__title">{auction.title}</span>
         {errorMessages.length > 0 && errorMessages.map(error => <div style={{ color: "red" }}>{error}</div>)}
         <form className="auction-details__price auction-bid" onSubmit={onBid}>
+          {success && <div className="auction-bid__success">Twoja oferta jest obecnie najwyższa</div>}
           <input
             className="auction-bid__input"
             name="price"
