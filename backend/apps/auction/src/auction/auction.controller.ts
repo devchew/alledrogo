@@ -8,6 +8,7 @@ import {
   Delete,
   UseGuards,
   Request,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
 
@@ -18,6 +19,7 @@ import { AuctionService } from './auction.service';
 import { AuthGuard } from '../guards/auth-guard/AuthGuard.guards';
 import { AuthorisedRequest } from '../types/request/request.type';
 import { AddBidDto } from './dto/bid/add-bid.dto';
+import { WithUserInterceptor } from '../interceptors/with-user/WithUser.interceptor';
 
 @ApiTags('Auction')
 @Controller('auction')
@@ -25,16 +27,19 @@ export class AuctionController {
   constructor(private readonly auctionService: AuctionService) {}
 
   @Get()
+  @ApiBearerAuth()
+  @UseInterceptors(WithUserInterceptor)
   @ApiResponse({
     status: 200,
     description: 'Success',
     type: [Auction],
   })
-  getAll() {
-    return this.auctionService.findAll();
+  getAll(@Request() request: AuthorisedRequest) {
+    return this.auctionService.findAll(request?.user?.id);
   }
 
   @Get(':id')
+  @ApiBearerAuth()
   @ApiResponse({
     status: 200,
     description: 'Success',
@@ -44,8 +49,12 @@ export class AuctionController {
     status: 404,
     description: 'Auction not found',
   })
-  async findOne(@Param('id') id: string) {
-    return this.auctionService.getOneWithBidsArray(id);
+  @UseInterceptors(WithUserInterceptor)
+  async findOne(
+    @Request() request: AuthorisedRequest,
+    @Param('id') id: string,
+  ) {
+    return this.auctionService.getOneWithBidsArray(id, request?.user?.id);
   }
 
   @Post()
@@ -95,7 +104,9 @@ export class AuctionController {
   })
   update(
     @Request() request: AuthorisedRequest,
-    @Param('id') id: string, @Body() updateAuctionDto: UpdateAuctionDto, ) {
+    @Param('id') id: string,
+    @Body() updateAuctionDto: UpdateAuctionDto,
+  ) {
     return this.auctionService.update(id, updateAuctionDto, request.user.id);
   }
 
