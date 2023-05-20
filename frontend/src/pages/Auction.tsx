@@ -89,9 +89,13 @@ const Auction: FunctionComponent = () => {
         <div className="auction-details__bidding">
           {auction.longDescription}
           <ul>
-            <li>{auction.status}</li>
-            <li>{auction.endDate}</li>
-            <li>{auction.createdAt}</li>
+            {auction.bids.length > 4 ? <>
+              <li>{auction.bids[0].price}zł [{auction.bids[0].name}]</li>
+              <li>...</li>
+              {auction.bids.slice(-3).map(bid => (<li>{bid.price}zł [{bid.name}]</li>))}
+            </> : <>
+              {auction.bids.map(bid => (<li>{bid.price}zł [{bid.name}]</li>))}
+            </>}
           </ul>
         </div>
       </div>
