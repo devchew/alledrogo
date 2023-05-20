@@ -81,7 +81,7 @@ const Auction: FunctionComponent = () => {
               type="number"
               min={auction.price}
               max="90000.00"
-              step="0.01"
+              step="1"
             />&nbsp;zł
             <button type="submit" className="button auction-bid__submit">Podbij</button>
           </form>
