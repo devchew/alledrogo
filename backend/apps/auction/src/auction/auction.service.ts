@@ -27,8 +27,15 @@ export class AuctionService {
     }
   }
 
-  async findAll(userId: string | undefined) {
-    const auctions = await Auction.find({ where: { status: false } });
+  async findAll(userId: string | undefined, sort: string | undefined) {
+    const sortBy = sort === 'date' ? 'createdAt' : sort === 'price' && 'price';
+
+    console.log(sortBy);
+
+    const auctions = await Auction.find({
+      where: { status: false },
+      order: sortBy && { [sortBy]: 'asc' },
+    });
     const checkedAuctionDate = auctions.map((auction) => {
       this.checkEndDate(auction);
       return {

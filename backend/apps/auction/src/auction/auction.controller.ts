@@ -9,6 +9,7 @@ import {
   UseGuards,
   Request,
   UseInterceptors,
+  Query,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
 
@@ -34,8 +35,8 @@ export class AuctionController {
     description: 'Success',
     type: [Auction],
   })
-  getAll(@Request() request: AuthorisedRequest) {
-    return this.auctionService.findAll(request?.user?.id);
+  getAll(@Request() request: AuthorisedRequest, @Query('sort') sort: string) {
+    return this.auctionService.findAll(request.user?.id, sort);
   }
 
   @Get(':id')
