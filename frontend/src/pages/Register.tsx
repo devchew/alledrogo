@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../api/auth";
+import "./Register.css";
 
 const Register: FunctionComponent = () => {
   const [errorMessages, setErrorMessages] = useState<string[]>([]);
@@ -33,17 +34,38 @@ const Register: FunctionComponent = () => {
     });
   };
   return (<>
-    <h1>Login</h1>
-    {errorMessages.map(error => <div style={{ color: "red" }}>{error}</div>)}
-    <form onSubmit={onRegister} style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-      <input name="email" placeholder="email" type="email" />
-      <input name="city" placeholder="city" type="text" />
-      <input name="street" placeholder="street" type="text" />
-      <input name="firstName" placeholder="firstName" type="text" />
-      <input name="lastName" placeholder="lastName" type="text" />
-      <input name="password" placeholder="haslo" type="password" />
-      <button type="submit">Zarejestruj się</button>
-    </form>
+<main className="main-register">
+  <div className="register-form-container">
+    <h1 className="register-form-title">Rejestracja</h1>
+    <div className="register-form-fields">
+      <form onSubmit={onRegister} >
+        {errorMessages.map(error => <div style={{ color: "red" }}>{error}</div>)}
+        <div className="register-form-field">
+          <input className="register-input" name="firstName" placeholder="Imię" type="text" />
+        </div>
+        <div className="register-form-field">
+          <input className="register-input" name="lastName" placeholder="Nazwisko" type="text" />
+        </div>
+        <div className="register-form-field">
+          <input className="register-input" name="email" placeholder="Email" type="email" />
+        </div>
+        <div className="register-form-field">
+          <input className="register-input" name="password" placeholder="Haslo" type="password" />
+        </div>
+        <div className="register-form-field">
+          <input className="register-input" name="city" placeholder="Miasto" type="text" />
+        </div>
+        <div className="register-form-field">
+          <input className="register-input" name="street" placeholder="Ulica" type="text" />
+        </div>
+        <div className="register-form-button">
+          <button className="button" type="submit">Zarejestruj się</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</main>
+
   </>);
 };
 

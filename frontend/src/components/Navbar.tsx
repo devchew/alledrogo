@@ -23,7 +23,7 @@ const Navbar: FunctionComponent = () => {
 
       <IfAuth ifNot>
         <NavLink to="/register" className={navLinkStyle}>Rejestracja</NavLink>
-        <NavLink to="/login" className={navLinkStyle}>zaloguj</NavLink>
+        <NavLink to="/login" className={navLinkStyle}>Zaloguj</NavLink>
       </IfAuth>
       <IfAuth>
         <NavLink to="/auction/add" className={navLinkStyleButton}>Dodaj +</NavLink>

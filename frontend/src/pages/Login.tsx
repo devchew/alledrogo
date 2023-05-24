@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/auth";
-
+import "./Login.css";
 
 const Login: FunctionComponent = () => {
   const auth = useAuth();
@@ -18,12 +18,25 @@ const Login: FunctionComponent = () => {
     });
   };
   return (<>
-    <h1>Login</h1>
-    <form onSubmit={onLogin}>
-      <input name="email" placeholder="email" type="email" />
-      <input name="password" placeholder="haslo" type="password" />
-      <button type="submit">Zaloguj</button>
-    </form>
+    <main className="main-login">
+      <div className="login-form-container">
+        <h1 className="login-form-title">Logowanie</h1>
+        <div className="login-form-fields">
+          <form onSubmit={onLogin}>
+            <div className="login-form-field">
+              <input className="login-input" name="email" placeholder="Email" type="email" />
+            </div>
+            <div className="login-form-field">
+              <input className="login-input" name="password" placeholder="Haslo" type="password" />
+            </div>
+            <div className="login-form-button">
+              <button className="button" type="submit">Zaloguj</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+
   </>);
 };
 
