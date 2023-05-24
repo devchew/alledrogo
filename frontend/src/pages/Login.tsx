@@ -36,7 +36,6 @@ const Login: FunctionComponent = () => {
         </div>
       </div>
     </main>
-
   </>);
 };
 

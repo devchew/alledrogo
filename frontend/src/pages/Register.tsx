@@ -65,7 +65,6 @@ const Register: FunctionComponent = () => {
     </div>
   </div>
 </main>
-
   </>);
 };
 
