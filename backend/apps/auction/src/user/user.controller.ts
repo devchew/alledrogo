@@ -8,7 +8,6 @@ import {
   Request,
   Patch,
   Body,
-  Post,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { User } from '../auction/models/userTypeForDocs.entity';
@@ -20,6 +19,7 @@ import { UpdateUserDto } from '../auction/dto/user/update-user.dto';
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
+
   @Get('')
   @ApiResponse({
     status: 200,
@@ -29,6 +29,19 @@ export class UserController {
   })
   getAllUsers() {
     return this.userService.getAllUsers();
+  }
+
+  @Get('/me')
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
+  @ApiResponse({
+    status: 200,
+    description: 'Success',
+    type: User,
+  })
+  async profile(@Request() request: AuthorisedRequest) {
+    console.log(request.user.id);
+    return this.userService.findOneUser(request.user.id);
   }
 
   @Get(':id')
