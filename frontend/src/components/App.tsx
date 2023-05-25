@@ -9,6 +9,7 @@ import Login from "../pages/Login";
 import Auction from "../pages/Auction";
 import { AuthContext, AuthGuard } from "../context/auth";
 import CreateAuction from "../pages/CreateAuction";
+import { Profile } from "../pages/profile/Profile";
 
 
 export function App() {
@@ -20,6 +21,7 @@ export function App() {
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/profile" element={<AuthGuard><Profile /></AuthGuard>} />
           <Route path="/auction/add" element={<AuthGuard><CreateAuction /></AuthGuard>} />
           <Route path="/auction/:id" element={<Auction />} />
         </Routes>

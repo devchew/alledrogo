@@ -1,0 +1,40 @@
+.sidebar {
+    max-width: 500px;
+    min-height: 500px;
+    background-color: #f0f0f0;
+    padding: 20px;
+    width: 200px;
+}
+
+.sidebar__list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar__list li {
+    cursor: pointer;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.sidebar__list li:hover {
+    background-color: #eaeaea;
+}
+
+.sidebar__list ul {
+    margin-top: 20px;
+    padding-left: 10px;
+}
+
+.sidebar__list ul li {
+    padding: 5px 10px;
+}
+
+.sidebar__list ul li:before {
+    content: "- ";
+}
+
+.sidebar__list ul li:hover {
+    background-color: #eaeaea;
+}

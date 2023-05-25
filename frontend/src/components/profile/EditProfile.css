@@ -1,0 +1,15 @@
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+}
+
+.profile-info-form-fields.register-form-fields{
+    width: 80%;
+}
+
+.profile-form.register-form-button .button--save{
+    background-color: #ff3f3f;
+}

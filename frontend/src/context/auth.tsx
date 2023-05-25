@@ -2,6 +2,7 @@ import * as React from "react";
 import { createContext, useContext, useEffect, useState } from "react";
 import { logIn } from "../api/auth";
 import { Navigate } from "react-router-dom";
+import { getProfile } from "../api/user";
 
 export interface User {
   id: string,
@@ -11,7 +12,6 @@ export interface User {
   email: string,
   city: string,
   street: string,
-  feedbacks: string
 }
 
 const Context = createContext<{
@@ -20,6 +20,7 @@ const Context = createContext<{
   token?: string
   login: () => Promise<void>
   logout: () => Promise<void>
+  setUser: (user: User) => void
 }>({
   isAuth: false,
   logout: () => {
@@ -48,9 +49,13 @@ export const AuthContext: React.Component = ({ children }) => {
     czyli pobrać na podstawie tokenu
     jego dane i zapisać za pomocą setUser()
     */
+    getProfile().then(res => {
+      setUser(res.data);
+    })
     if (!token) {
       return;
     }
+
     setToken(token);
     setIsAuth(true);
   }, []);
@@ -69,7 +74,8 @@ export const AuthContext: React.Component = ({ children }) => {
       user,
       token,
       login,
-      logout
+      logout,
+      setUser
     }}>
       {children}
     </Context.Provider>

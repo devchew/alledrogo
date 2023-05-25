@@ -45,7 +45,8 @@ export class UserService {
 
   async updateUser(id: string, updateUserDto: UpdateUserDto) {
     await User.update({ id }, { ...updateUserDto });
-    return await User.findOne({ where: { id } });
+    const updateUser = await User.findOne({ where: { id } });
+    return this.filterUser(updateUser);
   }
 
   async create(createUserDto: CreateUserDto) {
