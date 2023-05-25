@@ -1,6 +1,11 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Auction as AuctionType, bidAuction, getSingleAuction } from "../api/auction";
+import {
+  Auction as AuctionType,
+  bidAuction,
+  deleteAuction,
+  getSingleAuction,
+} from "../api/auction";
 import "./Auction.css";
 import { endDateToRelative } from "../helpers";
 
@@ -14,7 +19,7 @@ const Auction: FunctionComponent = () => {
 
   const loadAuction = () => {
     getSingleAuction(id)
-      .then(response => setAuction(response.data))
+      .then((response) => setAuction(response.data))
       .catch(() => navigate("/"));
   };
 
@@ -45,33 +50,57 @@ const Auction: FunctionComponent = () => {
         loadAuction();
         setSuccess(false);
       });
-
   };
 
   if (!auction) {
     return <h1>loading</h1>;
   }
 
-  return (<div className="auction-page">
+  return (
+    <div className="auction-page">
       <div className="auction-page__images auction-images">
-        {auction.image.trim() !== ""
-          ? <img src={auction.image} alt={auction.title} className="auction-images__item" />
-          : <div className="auction-images__placeholder">{auction.title}</div>
-        }
+        {auction.image.trim() !== "" ? (
+          <img
+            src={auction.image}
+            alt={auction.title}
+            className="auction-images__item"
+          />
+        ) : (
+          <div className="auction-images__placeholder">{auction.title}</div>
+        )}
       </div>
       <div className="auction-page__details auction-details">
-        <span
-          className="auction-details__status">koniec aukcji: {endDateToRelative(auction.endDate)}</span>
+        <span className="auction-details__status">
+          koniec aukcji: {endDateToRelative(auction.endDate)}
+        </span>
         <span className="auction-details__title">{auction.title}</span>
-        {errorMessages.length > 0 && errorMessages.map(error => <div style={{ color: "red" }}>{error}</div>)}
+        {errorMessages.length > 0 &&
+          errorMessages.map((error) => (
+            <div style={{ color: "red" }}>{error}</div>
+          ))}
 
-        {auction.myAuction ?
-          <span className="auction-details__price">
-            {auction.price}&nbsp;zł
-          </span>
-          :
+        {auction.myAuction ? (
+          <>
+            <span className="auction-details__price">
+              {auction.price}&nbsp;zł
+            </span>
+            <button
+              className="auction-details__button"
+              onClick={() => {
+                deleteAuction(auction.id);
+                navigate("/");
+              }}
+            >
+              Usuń aukcję
+            </button>
+          </>
+        ) : (
           <form className="auction-details__price auction-bid" onSubmit={onBid}>
-            {success && <div className="auction-bid__success">Twoja oferta jest obecnie najwyższa</div>}
+            {success && (
+              <div className="auction-bid__success">
+                Twoja oferta jest obecnie najwyższa
+              </div>
+            )}
             <input
               className="auction-bid__input"
               name="price"
@@ -82,20 +111,37 @@ const Auction: FunctionComponent = () => {
               min={auction.price}
               max="90000.00"
               step="1"
-            />&nbsp;zł
-            <button type="submit" className="button auction-bid__submit">Podbij</button>
+            />
+            &nbsp;zł
+            <button type="submit" className="button auction-bid__submit">
+              Podbij
+            </button>
           </form>
-        }
+        )}
         <div className="auction-details__bidding">
           {auction.longDescription}
           <ul>
-            {auction.bids.length > 4 ? <>
-              <li>{auction.bids[0].price}zł [{auction.bids[0].name}]</li>
-              <li>...</li>
-              {auction.bids.slice(-3).map(bid => (<li>{bid.price}zł [{bid.name}]</li>))}
-            </> : <>
-              {auction.bids.map(bid => (<li>{bid.price}zł [{bid.name}]</li>))}
-            </>}
+            {auction.bids.length > 4 ? (
+              <>
+                <li>
+                  {auction.bids[0].price}zł [{auction.bids[0].name}]
+                </li>
+                <li>...</li>
+                {auction.bids.slice(-3).map((bid) => (
+                  <li>
+                    {bid.price}zł [{bid.name}]
+                  </li>
+                ))}
+              </>
+            ) : (
+              <>
+                {auction.bids.map((bid) => (
+                  <li>
+                    {bid.price}zł [{bid.name}]
+                  </li>
+                ))}
+              </>
+            )}
           </ul>
         </div>
       </div>

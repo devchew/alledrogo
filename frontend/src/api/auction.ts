@@ -41,3 +41,5 @@ export const createAuction = (auction: {
 }) => http.post<Auction>(Endpoint_Auction_Create(), auction);
 
 export const bidAuction = (id: Auction["id"], price: Auction["price"]) => http.post(Endpoint_Auction_Bid(id), { price });
+
+export const deleteAuction = (id: string) => http.delete<Auction>(Endpoint_Auction_Single(id));
