@@ -51,7 +51,7 @@ export class AuctionController {
     return this.auctionService.getMyAuction(request.user.id);
   }
 
-  @Get('bids')
+  @Get('bid')
   @ApiBearerAuth()
   @ApiResponse({
     status: 200,

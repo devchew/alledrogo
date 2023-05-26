@@ -3,8 +3,11 @@ import { useState } from "react";
 import { EditProfile } from "../../components/profile/EditProfile";
 import { Sidebar } from "../../components/profile/Sidebar";
 
-import "./Profile.css";
 import { EditPassword } from "../../components/profile/EditPassword";
+import { MyAuctions } from "../../components/profile/MyAuctions";
+import { BidAuctions } from "../../components/profile/BidAuctions";
+
+import "./Profile.css";
 
 export const Profile = () => {
   const [activeSection, setActiveSection] = useState("profile");
@@ -18,11 +21,11 @@ export const Profile = () => {
     case "password":
       element = <EditPassword/>;
       break;
-    case "my-auction":
-      element = "Sprzedaje";
+    case "my-auctions":
+      element = <MyAuctions/>;
       break;
     case "my-bids":
-      element = "Licytuje";
+      element = <BidAuctions/>;
       break;
     default:
       element = <EditProfile/>;

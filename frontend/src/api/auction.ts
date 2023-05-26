@@ -1,7 +1,7 @@
 import {
-  Endpoint_Auction_All,
+  Endpoint_Auction_All, Endpoint_Auction_bid,
   Endpoint_Auction_Bid,
-  Endpoint_Auction_Create,
+  Endpoint_Auction_Create, Endpoint_Auction_my,
   Endpoint_Auction_Single,
   http
 } from "./http";
@@ -29,6 +29,8 @@ export interface Auction {
 
 
 export const getAllAuctions = () => http.get<Auction[]>(Endpoint_Auction_All());
+export const getMyAuctions = () => http.get<Auction[]>(Endpoint_Auction_my());
+export const getBidAuctions = () => http.get<Auction[]>(Endpoint_Auction_bid());
 
 export const getSingleAuction = (id: string) => http.get<Auction>(Endpoint_Auction_Single(id));
 

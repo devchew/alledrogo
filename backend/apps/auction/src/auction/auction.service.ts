@@ -137,7 +137,7 @@ export class AuctionService {
   async getMyAuction(userId: string) {
     const auctions = await Auction.find({
       where: { seller: userId },
-      order: { createdAt: 'asc' },
+      order: { createdAt: 'desc' },
     });
     const checkedAuctionDate = auctions.map((auction) => {
       this.checkEndDate(auction);
@@ -152,7 +152,7 @@ export class AuctionService {
 
   async getMyBids(userId: string) {
     const auctions = await Auction.find({
-      order: { createdAt: 'asc' },
+      order: { createdAt: 'desc' },
     });
 
     const checkedAuctionDate = auctions.map((auction) => {

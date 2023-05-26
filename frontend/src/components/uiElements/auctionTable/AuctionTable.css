@@ -1,0 +1,37 @@
+.auction-table {
+    width: 100%;
+    border-collapse: collapse
+}
+
+.auction-table td, .auction-table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    vertical-align: middle;
+}
+
+.auction-table-logo {
+}
+
+.auction-table-winner,
+.auction-table-price {
+    text-align: right;
+}
+
+.auction-table-item-image {
+    width: 100px;
+    height: 60px;
+}
+
+.auction-table-item-image img {
+    width: 100%;
+    object-fit: cover;
+}
+
+.auction-table-item-winner {
+    text-align: right;
+}
+
+.auction-table-item-price {
+    width: 100px;
+    text-align: right;
+}

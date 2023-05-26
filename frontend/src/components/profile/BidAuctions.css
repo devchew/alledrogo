@@ -1,0 +1,10 @@
+.bid-auctions {
+    margin: 20px;
+    width: 100%;
+}
+.bid-auctions h1 {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
