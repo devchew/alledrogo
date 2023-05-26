@@ -39,9 +39,11 @@ const Auction: FunctionComponent = () => {
         if (response.code === 401) {
           navigate("/");
         }
-        if (response.response.data.message) {
-          setErrorMessages([response?.response?.data?.message]);
-        }
+        if (response.response?.data.message) {
+          const message = response.response?.data.message
+          const isArray = Array.isArray(message)
+          setErrorMessages(isArray ? message : [message]);
+        } else setErrorMessages(['Ops. Coś poszło nie tak spróbuj ponownie później'])
         loadAuction();
         setSuccess(false);
       });
