@@ -1,4 +1,4 @@
-import { Endpoint_Auth_Login, Endpoint_Auth_Register, http } from "./http";
+import { Endpoint_Auth_ChangePassword, Endpoint_Auth_Login, Endpoint_Auth_Register, http } from "./http";
 
 interface UserRegister {
   firstName: string;
@@ -9,7 +9,13 @@ interface UserRegister {
   street: string;
 }
 
+interface ChangePassword {
+  oldPassword: string;
+  newPassword: string;
+}
+
 export const registerUser = (user: UserRegister) => http.post(Endpoint_Auth_Register(), user);
+export const changePassword = (obj: ChangePassword) => http.patch(Endpoint_Auth_ChangePassword(), obj);
 
 export const logIn = (email: string, password: string) =>
   http.post<{ accessToken: string }>(Endpoint_Auth_Login(), {

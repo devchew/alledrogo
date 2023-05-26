@@ -4,6 +4,7 @@ import { EditProfile } from "../../components/profile/EditProfile";
 import { Sidebar } from "../../components/profile/Sidebar";
 
 import "./Profile.css";
+import { EditPassword } from "../../components/profile/EditPassword";
 
 export const Profile = () => {
   const [activeSection, setActiveSection] = useState("profile");
@@ -15,7 +16,7 @@ export const Profile = () => {
       element = <EditProfile/>;
       break;
     case "password":
-      element = "Zmień hasło";
+      element = <EditPassword/>;
       break;
     case "my-auction":
       element = "Sprzedaje";

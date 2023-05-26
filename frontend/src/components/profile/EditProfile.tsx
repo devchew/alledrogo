@@ -9,9 +9,12 @@ export const EditProfile = () => {
   if(!user?.firstName) return null
 
   const [errorMessages, setErrorMessages] = useState<string[]>([]);
+
+  console.log(typeof []);
   const onSubmit = (event: SubmitEvent) => {
     event.preventDefault();
     setIsDisabled(true);
+
 
     const data = new FormData(event.target as HTMLFormElement);
     const email = data.get("email").toString();
@@ -26,10 +29,12 @@ export const EditProfile = () => {
       firstName,
       lastName,
       street
-    }).then((res) => setUser(res.data)).catch((response) => {
-      if (response.response.data.message) {
-        setErrorMessages(response.response.data.message);
-      }
+    }).then((res) => setUser(res?.data)).catch((response) => {
+      if (response.response?.data.message) {
+        const message = response.response?.data.message
+        const isArray = Array.isArray(message)
+        setErrorMessages(isArray ? message : [message]);
+      } else setErrorMessages(['Ops. Coś poszło nie tak spróbuj ponownie później'])
     });
   };
   return (
