@@ -4,7 +4,7 @@ import {
   Body,
   Request,
   UseGuards,
-  Get,
+  Get, Patch,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
 
@@ -69,11 +69,10 @@ export class AuthController {
     description: 'Unauthorized',
   })
   async login(@Body() loginDto: LoginDto) {
-    console.log(loginDto);
     return this.authService.login(loginDto);
   }
 
-  @Post('change-password')
+  @Patch('change-password')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiBody({ type: ChangePasswordDto })

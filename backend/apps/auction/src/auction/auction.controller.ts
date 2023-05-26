@@ -39,6 +39,30 @@ export class AuctionController {
     return this.auctionService.findAll(request.user?.id, sort);
   }
 
+  @Get('my')
+  @ApiBearerAuth()
+  @ApiResponse({
+    status: 200,
+    description: 'Success',
+    type: [Auction],
+  })
+  @UseGuards(AuthGuard)
+  getMyAuction(@Request() request: AuthorisedRequest) {
+    return this.auctionService.getMyAuction(request.user.id);
+  }
+
+  @Get('bids')
+  @ApiBearerAuth()
+  @ApiResponse({
+    status: 200,
+    description: 'Success',
+    type: [Auction],
+  })
+  @UseGuards(AuthGuard)
+  getMyBids(@Request() request: AuthorisedRequest) {
+    return this.auctionService.getMyBids(request.user.id);
+  }
+
   @Get(':id')
   @ApiBearerAuth()
   @ApiResponse({

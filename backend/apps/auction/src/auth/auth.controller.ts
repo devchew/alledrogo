@@ -1,5 +1,12 @@
 import { AuthService } from './auth.service';
-import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Patch,
+  Post,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { RegisterDto } from '../auction/dto/user/register.dto';
 import { LoginDto } from '../auction/dto/user/login.dto';
@@ -47,7 +54,7 @@ export class AuthController {
     return this.authService.userLogin(loginDto);
   }
 
-  @Post('change-password')
+  @Patch('change-password')
   @UseGuards(AuthGuard)
   @ApiBearerAuth()
   @ApiBody({ type: ChangePasswordDto })

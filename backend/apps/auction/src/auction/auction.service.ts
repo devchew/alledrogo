@@ -133,4 +133,38 @@ export class AuctionService {
 
     return auctionToBeUpdate;
   }
+
+  async getMyAuction(userId: string) {
+    const auctions = await Auction.find({
+      where: { seller: userId },
+      order: { createdAt: 'asc' },
+    });
+    const checkedAuctionDate = auctions.map((auction) => {
+      this.checkEndDate(auction);
+      return {
+        ...auction,
+        bids: this.getBids(auction),
+        myAuction: auction.seller === userId,
+      };
+    });
+    return checkedAuctionDate;
+  }
+
+  async getMyBids(userId: string) {
+    const auctions = await Auction.find({
+      order: { createdAt: 'asc' },
+    });
+
+    const checkedAuctionDate = auctions.map((auction) => {
+      this.checkEndDate(auction);
+      return {
+        ...auction,
+        bids: this.getBids(auction),
+        myAuction: auction.seller === userId,
+      };
+    });
+    return checkedAuctionDate.filter((auction) =>
+      auction.bids.some((bid) => bid.userId === userId),
+    );
+  }
 }

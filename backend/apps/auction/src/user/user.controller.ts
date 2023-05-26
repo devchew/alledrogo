@@ -40,7 +40,6 @@ export class UserController {
     type: User,
   })
   async profile(@Request() request: AuthorisedRequest) {
-    console.log(request.user.id);
     return this.userService.findOneUser(request.user.id);
   }
 
