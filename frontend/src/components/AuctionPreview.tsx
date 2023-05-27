@@ -2,6 +2,7 @@ import React, { FunctionComponent } from "react";
 import { Auction } from "../api/auction";
 import "./AuctionPreview.css";
 import { Link } from "react-router-dom";
+import { endDateToRelative } from "../helpers";
 
 interface Props {
   auction: Auction;
@@ -20,7 +21,7 @@ const AuctionPreview: FunctionComponent<Props> = ({ auction }) =>
           <span className="caption__price">{auction.price} zł</span>
         </span>
       </div>
-      <div className="auction-preview__date">{auction.endDate}</div>
+      <div className="auction-preview__date">{endDateToRelative(auction.endDate)}</div>
       <div className="auction-preview__excerpt">{auction.shortDescription}</div>
     </Link>
   );

@@ -33,7 +33,7 @@ export interface Auction {
 }
 
 
-export const getAllAuctions = () => http.get<Auction[]>(Endpoint_Auction_All());
+export const getAllAuctions = (sort: "date" | "price" = "date") => http.get<Auction[]>(Endpoint_Auction_All(sort));
 export const getMyAuctions = () => http.get<Auction[]>(Endpoint_Auction_my());
 export const getMyWinAuctions = () => http.get<Auction[]>(Endpoint_Auction_win());
 export const getBidAuctions = () => http.get<Auction[]>(Endpoint_Auction_bid());

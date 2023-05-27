@@ -91,7 +91,7 @@ const CreateAuction: FunctionComponent = () => {
           </div>
           <div className="edit-auction-page__details edit-auction-details">
             <span
-              className="edit-auction-details__status">koniec aukcji: {endDateToRelative(new Date(auction.endDate).toISOString())}</span>
+              className="edit-auction-details__status">koniec aukcji: {endDateToRelative(auction.endDate)}</span>
             <span className="edit-auction-details__title">
               <input name="title" placeholder="Tytuł" type="text" minLength="3" maxLength="100" required
                      defaultValue={auction.title} /></span>
