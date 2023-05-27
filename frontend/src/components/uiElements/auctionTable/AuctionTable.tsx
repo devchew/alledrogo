@@ -9,8 +9,6 @@ type AuctionTableType = {
   auctions: Auction[]
 }
 export const AuctionTable = ({ auctions }: AuctionTableType) => {
-  const date1 = new Date(auctions[0]?.endDate);
-
   const element = auctions.map(item => <tr key={item.id}>
     <td className="auction-table-item-image">
       <Link to={`/auction/${item.id}`}>
