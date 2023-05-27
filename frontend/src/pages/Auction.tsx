@@ -1,11 +1,7 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  Auction as AuctionType,
-  bidAuction,
-  deleteAuction,
-  getSingleAuction,
-} from "../api/auction";
+import { Auction as AuctionType, bidAuction, deleteAuction, getSingleAuction } from "../api/auction";
 import "./Auction.css";
 import { endDateToRelative } from "../helpers";
 
@@ -19,14 +15,19 @@ const Auction: FunctionComponent = () => {
 
   const loadAuction = () => {
     getSingleAuction(id)
-      .then((response) => setAuction(response.data))
-      .catch(() => navigate("/"));
+      .then(response => setAuction(response.data))
+      .catch((response) => {
+        const message = response.response?.data.message;
+        toast.error(message ?? "Przepraszamy. Proszę spróbować pożniej");
+        navigate("/");
+      });
   };
 
   useEffect(loadAuction, []);
 
   const onBid = (event: SubmitEvent) => {
     event.preventDefault();
+    setErrorMessages([]);
 
     const data = new FormData(event.target as HTMLFormElement);
     const price = parseInt(data.get("price").toString(), 10);
@@ -44,9 +45,11 @@ const Auction: FunctionComponent = () => {
         if (response.code === 401) {
           navigate("/");
         }
-        if (response.response.data.message) {
-          setErrorMessages([response?.response?.data?.message]);
-        }
+        if (response.response?.data.message) {
+          const message = response.response?.data.message;
+          const isArray = Array.isArray(message);
+          isArray ? setErrorMessages(message) : toast.error(message);
+        } else toast.error("Przepraszamy. Proszę spróbować pożniej");
         loadAuction();
         setSuccess(false);
       });
@@ -68,6 +71,10 @@ const Auction: FunctionComponent = () => {
         ) : (
           <div className="auction-images__placeholder">{auction.title}</div>
         )}
+        {auction.image.trim() !== ""
+          ? <img src={auction.image} alt={auction.title} className="auction-images__item" />
+          : <div className="auction-images__placeholder">{auction.title}</div>
+        }
       </div>
       <div className="auction-page__details auction-details">
         <span className="auction-details__status">

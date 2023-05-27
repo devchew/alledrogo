@@ -26,6 +26,7 @@ const Navbar: FunctionComponent = () => {
         <NavLink to="/login" className={navLinkStyle}>Zaloguj</NavLink>
       </IfAuth>
       <IfAuth>
+        <NavLink to="/profile" className={navLinkStyleButton}>Konto</NavLink>
         <NavLink to="/auction/add" className={navLinkStyleButton}>Dodaj +</NavLink>
         <button type="button" onClick={logout} className="navbar__link">Wyloguj się</button>
       </IfAuth>

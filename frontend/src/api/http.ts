@@ -7,8 +7,12 @@ export const Endpoint_Auth_Login = () => `auth/login`;
 export const Endpoint_Auth_ChangePassword = () => `auth/change-password`;
 
 export const Endpoint_User = () => `user`;
+export const Endpoint_User_Profile = () => `user/me`;
 
 export const Endpoint_Auction_All = (sort: "date" | "price" = "date") => `auction?sort=${sort}`;
+export const Endpoint_Auction_my = () => `auction/my`;
+export const Endpoint_Auction_win = () => `auction/win`;
+export const Endpoint_Auction_bid = () => `auction/bid`;
 export const Endpoint_Auction_Single = (id: string) => `auction/${id}`;
 export const Endpoint_Auction_Create = () => `auction`;
 export const Endpoint_Auction_Bid = (id: string) => `auction/${id}/bid`;

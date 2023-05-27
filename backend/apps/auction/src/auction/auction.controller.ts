@@ -1,26 +1,26 @@
 import {
-  Controller,
-  Get,
-  Post,
-  Param,
   Body,
-  Patch,
+  Controller,
   Delete,
-  UseGuards,
-  Request,
-  UseInterceptors,
+  Get,
+  Param,
+  Patch,
+  Post,
   Query,
-} from '@nestjs/common';
-import { ApiBearerAuth, ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
+  Request,
+  UseGuards,
+  UseInterceptors
+} from "@nestjs/common";
+import { ApiBearerAuth, ApiBody, ApiResponse, ApiTags } from "@nestjs/swagger";
 
-import { Auction } from './models/auction.entity';
-import { CreateAuctionDto } from './dto/create-auction.dto';
-import { UpdateAuctionDto } from './dto/update-auction.dto';
-import { AuctionService } from './auction.service';
-import { AuthGuard } from '../guards/auth-guard/AuthGuard.guards';
-import { AuthorisedRequest } from '../types/request/request.type';
-import { AddBidDto } from './dto/bid/add-bid.dto';
-import { WithUserInterceptor } from '../interceptors/with-user/WithUser.interceptor';
+import { Auction } from "./models/auction.entity";
+import { CreateAuctionDto } from "./dto/create-auction.dto";
+import { UpdateAuctionDto } from "./dto/update-auction.dto";
+import { AuctionService } from "./auction.service";
+import { AuthGuard } from "../guards/auth-guard/AuthGuard.guards";
+import { AuthorisedRequest } from "../types/request/request.type";
+import { AddBidDto } from "./dto/bid/add-bid.dto";
+import { WithUserInterceptor } from "../interceptors/with-user/WithUser.interceptor";
 
 @ApiTags('Auction')
 @Controller('auction')
@@ -32,19 +32,55 @@ export class AuctionController {
   @UseInterceptors(WithUserInterceptor)
   @ApiResponse({
     status: 200,
-    description: 'Success',
-    type: [Auction],
+    description: "Success",
+    type: [Auction]
   })
-  getAll(@Request() request: AuthorisedRequest, @Query('sort') sort: string) {
+  getAll(@Request() request: AuthorisedRequest, @Query("sort") sort: string) {
     return this.auctionService.findAll(request.user?.id, sort);
   }
 
-  @Get(':id')
+  @Get("my")
   @ApiBearerAuth()
   @ApiResponse({
     status: 200,
-    description: 'Success',
-    type: Auction,
+    description: "Success",
+    type: [Auction]
+  })
+  @UseGuards(AuthGuard)
+  getMyAuction(@Request() request: AuthorisedRequest) {
+    return this.auctionService.getMyAuction(request.user.id);
+  }
+
+  @Get("bid")
+  @ApiBearerAuth()
+  @ApiResponse({
+    status: 200,
+    description: "Success",
+    type: [Auction]
+  })
+  @UseGuards(AuthGuard)
+  getMyBids(@Request() request: AuthorisedRequest) {
+    return this.auctionService.getMyBids(request.user.id);
+  }
+
+  @Get("win")
+  @ApiBearerAuth()
+  @ApiResponse({
+    status: 200,
+    description: "Success",
+    type: [Auction]
+  })
+  @UseGuards(AuthGuard)
+  getMyWinAuctions(@Request() request: AuthorisedRequest) {
+    return this.auctionService.getMyWinAuction(request.user.id);
+  }
+
+  @Get(":id")
+  @ApiBearerAuth()
+  @ApiResponse({
+    status: 200,
+    description: "Success",
+    type: Auction
   })
   @ApiResponse({
     status: 404,

@@ -2,6 +2,7 @@ import React, { FunctionComponent } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/auth";
 import "./Login.css";
+import { toast } from "react-toastify";
 
 const Login: FunctionComponent = () => {
   const auth = useAuth();
@@ -15,7 +16,7 @@ const Login: FunctionComponent = () => {
 
     auth.login(email, password).then(() => {
       navigate("/");
-    });
+    }).catch((res) => toast.error(res.response?.data.message ?? "Proszę spróbować później"));
   };
   return (<>
     <main className="main-login">

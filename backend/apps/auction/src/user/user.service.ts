@@ -51,7 +51,9 @@ export class UserService {
       if (e.response.status === 401) {
         throw new UnauthorizedException("Not found user");
       } else {
-        throw new InternalServerErrorException("Ops. Spróbuj ponowanie później");
+        throw new InternalServerErrorException(
+          "Ops. Spróbuj ponowanie później"
+        );
       }
     }
   }
@@ -77,7 +79,9 @@ export class UserService {
       } else if (e.response.status === 400) {
         throw new BadRequestException("Błąd walidacji");
       } else {
-        throw new InternalServerErrorException("Ops. Spróbuj ponowanie później");
+        throw new InternalServerErrorException(
+          "Ops. Spróbuj ponowanie później"
+        );
       }
     }
   }

@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import React, { FunctionComponent, useEffect, useState } from "react";
 import { Auction, getAllAuctions } from "../api/auction";
 import { useAuth } from "../context/auth";
@@ -11,11 +12,10 @@ const Home: FunctionComponent = () => {
 
   const [auctions, setAuctions] = useState<Auction[]>([]);
   const { isAuth } = useAuth();
-
   useEffect(() => {
     getAllAuctions().then((auctions) => {
       setAuctions(auctions.data);
-    });
+    }).catch(() => toast.error("Przepraszamy. Proszę spróbować pożniej"));
   }, []);
 
   return (<>

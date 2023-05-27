@@ -1,45 +1,48 @@
-import { UserService } from './user.service';
-import {
-  Controller,
-  Delete,
-  Get,
-  Param,
-  UseGuards,
-  Request,
-  Patch,
-  Body,
-  Post,
-} from '@nestjs/common';
-import { ApiBearerAuth, ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { User } from '../auction/models/userTypeForDocs.entity';
-import { AuthGuard } from '../guards/auth-guard/AuthGuard.guards';
-import { AuthorisedRequest } from '../types/request/request.type';
-import { UpdateUserDto } from '../auction/dto/user/update-user.dto';
+import { UserService } from "./user.service";
+import { Body, Controller, Delete, Get, Param, Patch, Request, UseGuards } from "@nestjs/common";
+import { ApiBearerAuth, ApiBody, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { User } from "../auction/models/userTypeForDocs.entity";
+import { AuthGuard } from "../guards/auth-guard/AuthGuard.guards";
+import { AuthorisedRequest } from "../types/request/request.type";
+import { UpdateUserDto } from "../auction/dto/user/update-user.dto";
 
 @ApiTags('User')
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
+
   @Get('')
   @ApiResponse({
     status: 200,
 
-    description: 'Success',
-    type: [User],
+    description: "Success",
+    type: [User]
   })
   getAllUsers() {
     return this.userService.getAllUsers();
   }
 
-  @Get(':id')
+  @Get("/me")
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @ApiResponse({
     status: 200,
-    description: 'Success',
-    type: User,
+    description: "Success",
+    type: User
+  })
+  async profile(@Request() request: AuthorisedRequest) {
+    return this.userService.findOneUser(request.user.id);
+  }
+
+  @Get(":id")
+  @ApiResponse({
+    status: 200,
+    description: "Success",
+    type: User
   })
   @ApiResponse({
     status: 404,
-    description: 'User not found',
+    description: "User not found"
   })
   async find(@Param('id') id: string) {
     return this.userService.findOneUser(id);

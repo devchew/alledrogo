@@ -30,7 +30,9 @@ export class AuthService {
       } else if (e.response.status === 400) {
         throw new BadRequestException("Błąd walidacji");
       } else {
-        throw new InternalServerErrorException("Ops. Spróbuj ponowanie później");
+        throw new InternalServerErrorException(
+          "Ops. Spróbuj ponowanie później"
+        );
       }
     }
   }
@@ -48,7 +50,9 @@ export class AuthService {
       } else if (e.response.status === 400) {
         throw new BadRequestException("Błąd walidacji");
       } else {
-        throw new InternalServerErrorException("Ops. Spróbuj ponowanie później");
+        throw new InternalServerErrorException(
+          "Ops. Spróbuj ponowanie później"
+        );
       }
     }
   }
@@ -58,7 +62,7 @@ export class AuthService {
     changePasswordDto: ChangePasswordDto
   ) {
     try {
-      const updatePasswordRes = await this.httpService.axiosRef.post(
+      const updatePasswordRes = await this.httpService.axiosRef.patch(
         `${Config.userApi}/auth/change-password`,
         changePasswordDto,
         {
@@ -74,8 +78,9 @@ export class AuthService {
       } else if (e.response.status === 400) {
         throw new BadRequestException("Błąd walidacji");
       } else {
-        throw new InternalServerErrorException("Ops. Spróbuj ponowanie później");
-
+        throw new InternalServerErrorException(
+          "Ops. Spróbuj ponowanie później"
+        );
       }
     }
   }

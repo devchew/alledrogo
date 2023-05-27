@@ -1,9 +1,12 @@
 import React, { FunctionComponent, useState } from "react";
+import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { createAuction } from "../api/auction";
+
 import Heading from "../components/Heading";
-import "./CreateAuction.css";
+import { createAuction } from "../api/auction";
 import { endDateToRelative } from "../helpers";
+
+import "./CreateAuction.css";
 
 const CreateAuction: FunctionComponent = () => {
   const [errorMessages, setErrorMessages] = useState<string[]>([]);
@@ -18,6 +21,7 @@ const CreateAuction: FunctionComponent = () => {
 
   const onAdd = (event: SubmitEvent) => {
     event.preventDefault();
+    setErrorMessages([]);
 
     const data = new FormData(event.target as HTMLFormElement);
     const image = data.get("image").toString();
@@ -33,14 +37,17 @@ const CreateAuction: FunctionComponent = () => {
       shortDescription,
       title
     }).then((response) => {
+      toast.success("Aukcja została dodana!");
       navigate(`/auction/${response.data.id}`);
     }).catch((response) => {
       if (response.code === 401) {
         navigate("/");
       }
-      if (response.response.data.message) {
-        setErrorMessages(response?.response?.data?.message);
-      }
+      if (response.response?.data.message) {
+        const message = response.response?.data.message;
+        const isArray = Array.isArray(message);
+        isArray ? setErrorMessages(message) : toast.error(message);
+      } else toast.error("Przepraszamy. Proszę spróbować pożniej");
     });
   };
   return (

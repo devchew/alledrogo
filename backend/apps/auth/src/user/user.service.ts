@@ -1,15 +1,11 @@
-import {
-  Injectable,
-  ConflictException,
-  NotFoundException,
-} from '@nestjs/common';
-import { FindOptionsWhere } from 'typeorm';
-import * as argon2 from 'argon2';
+import { ConflictException, Injectable, NotFoundException } from "@nestjs/common";
+import { FindOptionsWhere } from "typeorm";
+import * as argon2 from "argon2";
 
-import { UpdatePasswordDto } from './dto/update-password.dto';
-import { CreateUserDto } from './dto/create-user.dto';
-import { User } from './model/user.entity';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { UpdatePasswordDto } from "./dto/update-password.dto";
+import { CreateUserDto } from "./dto/create-user.dto";
+import { User } from "./model/user.entity";
+import { UpdateUserDto } from "./dto/update-user.dto";
 
 @Injectable()
 export class UserService {
@@ -45,7 +41,8 @@ export class UserService {
 
   async updateUser(id: string, updateUserDto: UpdateUserDto) {
     await User.update({ id }, { ...updateUserDto });
-    return await User.findOne({ where: { id } });
+    const updateUser = await User.findOne({ where: { id } });
+    return this.filterUser(updateUser);
   }
 
   async create(createUserDto: CreateUserDto) {

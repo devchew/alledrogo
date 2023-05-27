@@ -1,29 +1,29 @@
-import {
-  BaseEntity,
-  Column,
-  PrimaryGeneratedColumn,
-  Entity,
-  CreateDateColumn,
-} from 'typeorm';
-import { ApiProperty } from '@nestjs/swagger';
+import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { ApiProperty } from "@nestjs/swagger";
 
 @Entity()
 export class Auction extends BaseEntity {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn("uuid")
   @ApiProperty()
   id: string;
 
   @Column({
-    length: 36,
+    length: 36
   })
   seller: string;
+
+  @Column({
+    length: 36,
+    default: null
+  })
+  winner: string;
 
   @CreateDateColumn()
   @ApiProperty()
   createdAt: Date;
 
   @Column({
-    length: 50,
+    length: 50
   })
   @ApiProperty()
   title: string;
