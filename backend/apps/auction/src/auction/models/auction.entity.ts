@@ -18,6 +18,12 @@ export class Auction extends BaseEntity {
   })
   seller: string;
 
+  @Column({
+    length: 36,
+    default: null,
+  })
+  winner: string;
+
   @CreateDateColumn()
   @ApiProperty()
   createdAt: Date;

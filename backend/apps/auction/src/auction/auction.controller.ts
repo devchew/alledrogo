@@ -63,6 +63,18 @@ export class AuctionController {
     return this.auctionService.getMyBids(request.user.id);
   }
 
+  @Get('win')
+  @ApiBearerAuth()
+  @ApiResponse({
+    status: 200,
+    description: 'Success',
+    type: [Auction],
+  })
+  @UseGuards(AuthGuard)
+  getMyWinAuctions(@Request() request: AuthorisedRequest) {
+    return this.auctionService.getMyWinAuction(request.user.id);
+  }
+
   @Get(':id')
   @ApiBearerAuth()
   @ApiResponse({

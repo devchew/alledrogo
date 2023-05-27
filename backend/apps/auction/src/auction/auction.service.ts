@@ -66,6 +66,7 @@ export class AuctionService {
       bids,
       myAuction: auction.seller === userId,
     };
+    console.log(auctionWithBidsArray);
     return auctionWithBidsArray as unknown as Auction;
   }
 
@@ -112,6 +113,7 @@ export class AuctionService {
     };
     bids.push(newBid);
     auction.price = addBidDto.price;
+    auction.winner = userId;
     this.setBids(auction, bids);
     await auction.save();
     return;
@@ -148,6 +150,20 @@ export class AuctionService {
       };
     });
     return checkedAuctionDate;
+  }
+
+  async getMyWinAuction(userId: string) {
+    const auctions = await Auction.find({
+      where: { winner: userId, status: true },
+      order: { createdAt: 'desc' },
+    });
+    return auctions.map((auction) => {
+      return {
+        ...auction,
+        bids: this.getBids(auction),
+        myAuction: auction.seller === userId,
+      };
+    });
   }
 
   async getMyBids(userId: string) {
