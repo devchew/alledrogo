@@ -3,7 +3,7 @@
     min-height: 500px;
     background-color: #f0f0f0;
     padding: 20px;
-    width: 200px;
+    min-width: 200px;
 }
 
 .sidebar__list {
