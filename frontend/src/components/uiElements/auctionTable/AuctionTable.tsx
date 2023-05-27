@@ -10,8 +10,6 @@ type AuctionTableType = {
 }
 export const AuctionTable = ({ auctions }: AuctionTableType) => {
   const date1 = new Date(auctions[0]?.endDate);
-  console.log(getTimeRemaining(date1));
-
 
   const element = auctions.map(item => <tr key={item.id}>
     <td className="auction-table-item-image">

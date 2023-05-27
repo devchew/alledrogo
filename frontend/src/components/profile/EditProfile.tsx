@@ -13,7 +13,6 @@ export const EditProfile = () => {
 
   const [errorMessages, setErrorMessages] = useState<string[]>([]);
 
-  console.log(typeof []);
   const onSubmit = (event: SubmitEvent) => {
     event.preventDefault();
     setIsDisabled(true);
