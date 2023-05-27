@@ -13,7 +13,9 @@ export const AuctionTable = ({ auctions }: AuctionTableType) => {
     <td className="auction-table-item-image">
       <Link to={`/auction/${item.id}`}>
         <img src={item.image} alt="auction image" />
-      </Link></td>
+        {item.title}
+      </Link>
+    </td>
     <td className="auction-table-item-winner">{item.bids[0]?.name ?? "---"}</td>
     <td className="auction-table-item-price">{item.status ? "Zakończona" : getTimeRemaining(item.endDate)}</td>
     <td className="auction-table-item-price">{item.price}</td>
@@ -22,7 +24,7 @@ export const AuctionTable = ({ auctions }: AuctionTableType) => {
   return <table className="auction-table">
     <thead>
     <tr>
-      <th className="auction-table-logo">Logo</th>
+      <th className="auction-table-logo">Aukcja</th>
       <th className="auction-table-winner">Wygrywa</th>
       <th className="auction-table-winner">Do końca</th>
       <th className="auction-table-price">Cena</th>
