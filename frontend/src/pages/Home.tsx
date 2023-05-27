@@ -21,7 +21,7 @@ const Home: FunctionComponent = () => {
     <Heading>Alledrogo, nasze aukcje</Heading>
     <div className="home-auctions">
       {auctions.map(auction =>
-        <div className="home-auctions__item">
+        <div className="home-auctions__item" key={auction.id}>
           <AuctionPreview auction={auction} />
         </div>
       )}
