@@ -58,9 +58,9 @@ export const AuthContext: React.Component = ({ children }) => {
       setIsAuth(true);
     }).catch(() => {
       sessionStorage.clear();
-      navigate("/");
       setToken("");
       setIsAuth(false);
+      navigate("/");
       return;
     });
   }, []);
