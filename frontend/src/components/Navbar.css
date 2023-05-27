@@ -19,7 +19,7 @@
 }
 
 .navbar__links {
-    margin: 0 auto;
+    margin-left: auto;
     display: flex;
     gap: 32px;
 }
