@@ -15,6 +15,7 @@ export const Endpoint_Auction_win = () => `auction/win`;
 export const Endpoint_Auction_bid = () => `auction/bid`;
 export const Endpoint_Auction_Single = (id: string) => `auction/${id}`;
 export const Endpoint_Auction_Create = () => `auction`;
+export const Endpoint_Auction_Update = (id: string) => `auction/${id}`;
 export const Endpoint_Auction_Bid = (id: string) => `auction/${id}/bid`;
 
 

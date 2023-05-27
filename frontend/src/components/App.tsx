@@ -14,6 +14,7 @@ import "./reset.css";
 import "./shared.css";
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
+import EditAuction from "../pages/EditAuction";
 
 
 export function App() {
@@ -28,6 +29,7 @@ export function App() {
           <Route path="/profile" element={<AuthGuard><Profile /></AuthGuard>} />
           <Route path="/auction/add" element={<AuthGuard><CreateAuction /></AuthGuard>} />
           <Route path="/auction/:id" element={<Auction />} />
+          <Route path="/auction/:id/edit" element={<EditAuction />} />
         </Routes>
       </BrowserRouter>
       <ToastContainer />

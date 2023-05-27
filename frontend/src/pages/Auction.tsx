@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { useNavigate, useParams } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { Auction as AuctionType, bidAuction, deleteAuction, getSingleAuction } from "../api/auction";
 import "./Auction.css";
 import { endDateToRelative } from "../helpers";
@@ -68,30 +68,36 @@ const Auction: FunctionComponent = () => {
         }
       </div>
       <div className="auction-page__details auction-details">
-        <span className="auction-details__status">
-          koniec aukcji: {endDateToRelative(auction.endDate)}
-        </span>
+        <div className="auction-page__details__bar">
+          <span className="auction-details__status">
+            koniec aukcji: {endDateToRelative(auction.endDate)}
+          </span>
+          {auction.myAuction && (
+            <>
+              <button
+                className="auction-details__button auction-details__button--secondary"
+                onClick={() => {
+                  deleteAuction(auction.id);
+                  navigate("/");
+                }}
+              >
+                Usuń
+              </button>
+              <NavLink to="./edit"
+                       className="auction-details__button auction-details__button--secondary">Edytuj</NavLink>
+            </>
+          )}
+        </div>
         <span className="auction-details__title">{auction.title}</span>
         {errorMessages.length > 0 &&
           errorMessages.map((error) => (
-            <div style={{ color: "red" }}>{error}</div>
+            <div style={{ color: "red" }} key={error}>{error}</div>
           ))}
 
         {auction.myAuction ? (
-          <>
-            <span className="auction-details__price">
-              {auction.price}&nbsp;zł
-            </span>
-            <button
-              className="auction-details__button"
-              onClick={() => {
-                deleteAuction(auction.id);
-                navigate("/");
-              }}
-            >
-              Usuń aukcję
-            </button>
-          </>
+          <span className="auction-details__price">
+            {auction.price}&nbsp;zł
+          </span>
         ) : (
           <form className="auction-details__price auction-bid" onSubmit={onBid}>
             {success && (
@@ -116,8 +122,11 @@ const Auction: FunctionComponent = () => {
             </button>
           </form>
         )}
-        <div className="auction-details__bidding">
+        <div className="auction-details__description">
           {auction.longDescription}
+        </div>
+        <div className="auction-details__bidding">
+          <h3 className="auction-details__bidding-title">historia licytacji:</h3>
           <ul>
             {auction.bids.length > 4 ? (
               <>
@@ -126,7 +135,7 @@ const Auction: FunctionComponent = () => {
                 </li>
                 <li>...</li>
                 {auction.bids.slice(-3).map((bid) => (
-                  <li>
+                  <li key={bid.userId + "_" + bid.price}>
                     {bid.price}zł [{bid.name}]
                   </li>
                 ))}
@@ -134,7 +143,7 @@ const Auction: FunctionComponent = () => {
             ) : (
               <>
                 {auction.bids.map((bid) => (
-                  <li>
+                  <li key={bid.userId + "_" + bid.price}>
                     {bid.price}zł [{bid.name}]
                   </li>
                 ))}

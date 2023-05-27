@@ -1,0 +1,79 @@
+.edit-auction-page {
+    max-width: 1100px;
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    gap: 32px;
+    justify-content: space-evenly;
+    margin-top: 120px;
+}
+
+.edit-auction-page__image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    width: 50%;
+    aspect-ratio: 3/2;
+    background-color: #d4d4d4;
+}
+
+.edit-auction-page__image-backdrop {
+    padding: 18px;
+    background-color: rgb(255 255 255 / 62%);
+    border-radius: 16px;
+}
+
+.edit-auction-page__image input {
+    font-size: 14px;
+    padding: 6px;
+    border-radius: 8px;
+    border: 1px #333 solid;
+}
+
+.edit-auction-page__details {
+    overflow: hidden;
+    max-width: 50%;
+}
+
+
+.edit-auction-details {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.edit-auction-details__status {
+    display: block;
+    font-size: 12px;
+    background-color: #030303;
+    padding: 20px 30px;
+    color: #ffffff;
+    border: none;
+    text-decoration: none;
+    margin-right: auto;
+}
+
+.edit-auction-details__title input {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    border: none;
+}
+
+.edit-auction-details__price, .edit-auction-details__price input {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    border: none;
+}
+
+.edit-auction-details__shortdescription, .edit-auction-details__description {
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+    gap: 8px;
+}
+
+.edit-auction-details__shortdescription textarea, .edit-auction-details__description textarea {
+    border-radius: 5px;
+    padding: 6px;
+}
