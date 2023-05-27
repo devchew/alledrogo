@@ -1,14 +1,18 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
+
 import { Auction as AuctionType, bidAuction, deleteAuction, getSingleAuction } from "../api/auction";
-import "./Auction.css";
 import { endDateToRelative } from "../helpers";
+import { useAuth } from "../context/auth";
+
+import "./Auction.css";
 
 const Auction: FunctionComponent = () => {
   const [auction, setAuction] = useState<AuctionType>();
   const [errorMessages, setErrorMessages] = useState<string[]>([]);
   const [success, setSuccess] = useState<boolean>(false);
+  const { isAuth } = useAuth();
 
   const { id } = useParams();
   const navigate = useNavigate();
@@ -28,8 +32,11 @@ const Auction: FunctionComponent = () => {
   const onBid = (event: SubmitEvent) => {
     event.preventDefault();
     setErrorMessages([]);
+    if (!isAuth){
+      navigate("/login");
+    }
 
-    const data = new FormData(event.target as HTMLFormElement);
+      const data = new FormData(event.target as HTMLFormElement);
     const price = parseInt(data.get("price").toString(), 10);
 
     bidAuction(auction.id, price)
@@ -63,7 +70,7 @@ const Auction: FunctionComponent = () => {
     <div className="auction-page">
       <div className="auction-page__images auction-images">
         {auction.image.trim() !== ""
-          ? <img src={auction.image} alt={auction.title} className="auction-images__item" />
+          ? <img src={auction.image} alt={auction.title} className="auction-images__item"/>
           : <div className="auction-images__placeholder">{auction.title}</div>
         }
       </div>
