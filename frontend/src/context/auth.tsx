@@ -1,7 +1,7 @@
 import * as React from "react";
 import { createContext, useContext, useEffect, useState } from "react";
 import { logIn } from "../api/auth";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { getProfile } from "../api/user";
 
 export interface User {
@@ -34,6 +34,7 @@ export const AuthContext: React.Component = ({ children }) => {
   const [token, setToken] = useState<string>(sessionStorage.getItem("auth"));
   const [isAuth, setIsAuth] = useState<boolean>(false);
   const [user, setUser] = useState<User>({});
+  const navigate = useNavigate();
   const logout = () => {
     sessionStorage.clear();
     window.location.reload();
@@ -49,15 +50,19 @@ export const AuthContext: React.Component = ({ children }) => {
     czyli pobrać na podstawie tokenu
     jego dane i zapisać za pomocą setUser()
     */
-    getProfile().then(res => {
-      setUser(res.data);
-    });
     if (!token) {
       return;
     }
-
-    setToken(token);
-    setIsAuth(true);
+    getProfile().then(res => {
+      setUser(res.data);
+      setIsAuth(true);
+    }).catch(() => {
+      sessionStorage.clear();
+      setToken("");
+      setIsAuth(false);
+      navigate("/");
+      return;
+    });
   }, []);
 
   useEffect(() => {
@@ -94,5 +99,5 @@ export const AuthGuard: React.Component = ({ children }) => {
   if (isAuth) {
     return children;
   }
-  return (<Navigate to="/" />);
+  return (<Navigate to="/"/>);
 };
