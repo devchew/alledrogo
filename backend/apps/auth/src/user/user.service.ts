@@ -1,11 +1,17 @@
-import { ConflictException, Injectable, NotFoundException } from "@nestjs/common";
-import { FindOptionsWhere } from "typeorm";
-import * as argon2 from "argon2";
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import { FindOptionsWhere } from 'typeorm';
+import * as argon2 from 'argon2';
 
-import { UpdatePasswordDto } from "./dto/update-password.dto";
-import { CreateUserDto } from "./dto/create-user.dto";
-import { User } from "./model/user.entity";
-import { UpdateUserDto } from "./dto/update-user.dto";
+import { UpdatePasswordDto } from './dto/update-password.dto';
+import { CreateUserDto } from './dto/create-user.dto';
+import { User } from './model/user.entity';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { Not } from 'typeorm';
 
 @Injectable()
 export class UserService {
@@ -40,6 +46,10 @@ export class UserService {
   }
 
   async updateUser(id: string, updateUserDto: UpdateUserDto) {
+    const userWithEmail = await User.findOne({
+      where: { email: updateUserDto.email, id: Not(id) },
+    });
+    if (userWithEmail) throw new BadRequestException('Email jest już zajęty');
     await User.update({ id }, { ...updateUserDto });
     const updateUser = await User.findOne({ where: { id } });
     return this.filterUser(updateUser);

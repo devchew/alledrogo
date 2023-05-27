@@ -1,11 +1,16 @@
-import { BadRequestException, Inject, Injectable, NotFoundException } from "@nestjs/common";
+import {
+  BadRequestException,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 
-import { Auction } from "./models/auction.entity";
-import { CreateAuctionDto } from "./dto/create-auction.dto";
-import { AddBidDto } from "./dto/bid/add-bid.dto";
-import { Bid } from "../types/bid/bid.type";
-import { UpdateAuctionDto } from "./dto/update-auction.dto";
-import { UserService } from "../user/user.service";
+import { Auction } from './models/auction.entity';
+import { CreateAuctionDto } from './dto/create-auction.dto';
+import { AddBidDto } from './dto/bid/add-bid.dto';
+import { Bid } from '../types/bid/bid.type';
+import { UpdateAuctionDto } from './dto/update-auction.dto';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class AuctionService {
@@ -121,10 +126,10 @@ export class AuctionService {
   ) {
     let auctionToBeUpdate = await this.findOne(id);
     if (sellerId !== auctionToBeUpdate.seller)
-      throw new BadRequestException("Brak dostępu");
+      throw new BadRequestException('Brak dostępu');
     auctionToBeUpdate = {
       ...auctionToBeUpdate,
-      ...updateAuctionDto
+      ...updateAuctionDto,
     } as Auction;
     await Auction.update({ id }, { ...updateAuctionDto });
 
@@ -134,14 +139,14 @@ export class AuctionService {
   async getMyAuction(userId: string) {
     const auctions = await Auction.find({
       where: { seller: userId },
-      order: { createdAt: "desc" }
+      order: { createdAt: 'desc' },
     });
     const checkedAuctionDate = auctions.map((auction) => {
       this.checkEndDate(auction);
       return {
         ...auction,
         bids: this.getBids(auction),
-        myAuction: auction.seller === userId
+        myAuction: auction.seller === userId,
       };
     });
     return checkedAuctionDate;
@@ -150,20 +155,20 @@ export class AuctionService {
   async getMyWinAuction(userId: string) {
     const auctions = await Auction.find({
       where: { winner: userId, status: true },
-      order: { createdAt: "desc" }
+      order: { createdAt: 'desc' },
     });
     return auctions.map((auction) => {
       return {
         ...auction,
         bids: this.getBids(auction),
-        myAuction: auction.seller === userId
+        myAuction: auction.seller === userId,
       };
     });
   }
 
   async getMyBids(userId: string) {
     const auctions = await Auction.find({
-      order: { createdAt: "desc" }
+      order: { createdAt: 'desc' },
     });
 
     const checkedAuctionDate = auctions.map((auction) => {
@@ -171,11 +176,11 @@ export class AuctionService {
       return {
         ...auction,
         bids: this.getBids(auction),
-        myAuction: auction.seller === userId
+        myAuction: auction.seller === userId,
       };
     });
     return checkedAuctionDate.filter((auction) =>
-      auction.bids.some((bid) => bid.userId === userId)
+      auction.bids.some((bid) => bid.userId === userId),
     );
   }
 }
