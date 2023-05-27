@@ -1,12 +1,15 @@
-import { useAuth } from "../../context/auth";
-import { editUser } from "../../api/user";
+import { toast } from "react-toastify";
 import { useState } from "react";
 
-import './EditProfile.css'
+import { editUser } from "../../api/user";
+import { useAuth } from "../../context/auth";
+
+import "./EditProfile.css";
+
 export const EditProfile = () => {
   const [isDisabled, setIsDisabled] = useState(true);
   const { user, setUser } = useAuth();
-  if(!user?.firstName) return null
+  if (!user?.firstName) return null;
 
   const [errorMessages, setErrorMessages] = useState<string[]>([]);
 
@@ -14,7 +17,7 @@ export const EditProfile = () => {
   const onSubmit = (event: SubmitEvent) => {
     event.preventDefault();
     setIsDisabled(true);
-
+    setErrorMessages([]);
 
     const data = new FormData(event.target as HTMLFormElement);
     const email = data.get("email").toString();
@@ -29,12 +32,15 @@ export const EditProfile = () => {
       firstName,
       lastName,
       street
-    }).then((res) => setUser(res?.data)).catch((response) => {
+    }).then((res) => {
+      toast.success("Dane zostały zmienione!");
+      setUser(res?.data);
+    }).catch((response) => {
       if (response.response?.data.message) {
-        const message = response.response?.data.message
-        const isArray = Array.isArray(message)
-        setErrorMessages(isArray ? message : [message]);
-      } else setErrorMessages(['Ops. Coś poszło nie tak spróbuj ponownie później'])
+        const message = response.response?.data.message;
+        const isArray = Array.isArray(message);
+        isArray ? setErrorMessages(message) : toast.error(message);
+      } else toast.error("Przepraszamy. Proszę spróbować pożniej");
     });
   };
   return (

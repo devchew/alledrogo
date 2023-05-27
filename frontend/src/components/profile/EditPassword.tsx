@@ -1,16 +1,17 @@
 import { useState } from "react";
 
+import { changePassword } from "../../api/auth";
 
 import "./EditPassword.css";
-import { changePassword } from "../../api/auth";
+import { toast } from "react-toastify";
 
 export const EditPassword = () => {
 
 
   const [errorMessages, setErrorMessages] = useState<string[]>([]);
-  const [successMessage, setSuccessMessage] = useState<string>("");
   const onSubmit = (event: SubmitEvent) => {
     event.preventDefault();
+    setErrorMessages([])
 
     const data = new FormData(event.target as HTMLFormElement);
     const oldPassword = data.get("oldPassword").toString();
@@ -25,12 +26,12 @@ export const EditPassword = () => {
     changePassword({
       oldPassword,
       newPassword
-    }).then(() => setSuccessMessage("Hasło zostało zmienione!")).catch((response) => {
+    }).then(() => toast.success("Hasło zostało zmienione!")).catch((response) => {
       if (response.response?.data.message) {
-        const message = response.response?.data.message
-        const isArray = Array.isArray(message)
-        setErrorMessages(isArray ? message : [message]);
-      } else setErrorMessages(['Ops. Coś poszło nie tak spróbuj ponownie później'])
+        const message = response.response?.data.message;
+        const isArray = Array.isArray(message);
+        isArray ? setErrorMessages(message) : toast.error(message);
+      } else toast.error("Przepraszamy. Proszę spróbować pożniej");
     });
   };
 
@@ -39,7 +40,6 @@ export const EditPassword = () => {
     <div className="profile-info-form-fields register-form-fields">
       <form onSubmit={onSubmit}>
         {errorMessages.map(error => <div style={{ color: "red" }}>{error}</div>)}
-        {successMessage && <div style={{ color: "cadetblue" }}>{successMessage}</div>}
         <div className="register-form-field">
           <input className="register-input" name="oldPassword"
                  placeholder="Stare hasło" type="text"/>

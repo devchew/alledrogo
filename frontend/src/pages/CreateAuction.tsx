@@ -1,9 +1,12 @@
 import React, { FunctionComponent, useState } from "react";
+import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { createAuction } from "../api/auction";
+
 import Heading from "../components/Heading";
-import "./CreateAuction.css";
+import { createAuction } from "../api/auction";
 import { endDateToRelative } from "../helpers";
+
+import "./CreateAuction.css";
 
 const CreateAuction: FunctionComponent = () => {
   const [errorMessages, setErrorMessages] = useState<string[]>([]);
@@ -18,6 +21,7 @@ const CreateAuction: FunctionComponent = () => {
 
   const onAdd = (event: SubmitEvent) => {
     event.preventDefault();
+    setErrorMessages([]);
 
     const data = new FormData(event.target as HTMLFormElement);
     const image = data.get("image").toString();
@@ -33,16 +37,17 @@ const CreateAuction: FunctionComponent = () => {
       shortDescription,
       title
     }).then((response) => {
+      toast.success("Aukcja została dodana!");
       navigate(`/auction/${response.data.id}`);
     }).catch((response) => {
       if (response.code === 401) {
         navigate("/");
       }
       if (response.response?.data.message) {
-        const message = response.response?.data.message
-        const isArray = Array.isArray(message)
-        setErrorMessages(isArray ? message : [message]);
-      } else setErrorMessages(['Ops. Coś poszło nie tak spróbuj ponownie później'])
+        const message = response.response?.data.message;
+        const isArray = Array.isArray(message);
+        isArray ? setErrorMessages(message) : toast.error(message);
+      } else toast.error("Przepraszamy. Proszę spróbować pożniej");
     });
   };
   return (
@@ -57,14 +62,14 @@ const CreateAuction: FunctionComponent = () => {
                style={imagePreview && { backgroundImage: `url(${imagePreview})` }}>
             <span className="create-auction-page__image-backdrop">
               URL obrazka:&nbsp;
-              <input name="image" placeholder="image" type="text" onChange={chanegImagePreview} />
+              <input name="image" placeholder="image" type="text" onChange={chanegImagePreview}/>
             </span>
           </div>
           <div className="create-auction-page__details create-auction-details">
             <span
               className="create-auction-details__status">koniec aukcji: {endDateToRelative(endDate)}</span>
             <span className="create-auction-details__title">
-              <input name="title" placeholder="Tytuł" type="text" minLength="3" maxLength="100" required /></span>
+              <input name="title" placeholder="Tytuł" type="text" minLength="3" maxLength="100" required/></span>
             <span className="create-auction-details__price">
               <input name="price" placeholder="1.00" type="number" min="0.00" max="10000.00" step="1"
               />&nbsp;zł

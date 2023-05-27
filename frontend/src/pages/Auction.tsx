@@ -1,8 +1,11 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
+
 import { Auction as AuctionType, bidAuction, getSingleAuction } from "../api/auction";
-import "./Auction.css";
 import { endDateToRelative } from "../helpers";
+
+import "./Auction.css";
 
 const Auction: FunctionComponent = () => {
   const [auction, setAuction] = useState<AuctionType>();
@@ -15,13 +18,18 @@ const Auction: FunctionComponent = () => {
   const loadAuction = () => {
     getSingleAuction(id)
       .then(response => setAuction(response.data))
-      .catch(() => navigate("/"));
+      .catch((response) => {
+        const message = response.response?.data.message;
+        toast.error(message ?? "Przepraszamy. Proszę spróbować pożniej");
+        navigate("/");
+      });
   };
 
   useEffect(loadAuction, []);
 
   const onBid = (event: SubmitEvent) => {
     event.preventDefault();
+    setErrorMessages([]);
 
     const data = new FormData(event.target as HTMLFormElement);
     const price = parseInt(data.get("price").toString(), 10);
@@ -40,10 +48,10 @@ const Auction: FunctionComponent = () => {
           navigate("/");
         }
         if (response.response?.data.message) {
-          const message = response.response?.data.message
-          const isArray = Array.isArray(message)
-          setErrorMessages(isArray ? message : [message]);
-        } else setErrorMessages(['Ops. Coś poszło nie tak spróbuj ponownie później'])
+          const message = response.response?.data.message;
+          const isArray = Array.isArray(message);
+          isArray ? setErrorMessages(message) : toast.error(message);
+        } else toast.error("Przepraszamy. Proszę spróbować pożniej");
         loadAuction();
         setSuccess(false);
       });
@@ -57,7 +65,7 @@ const Auction: FunctionComponent = () => {
   return (<div className="auction-page">
       <div className="auction-page__images auction-images">
         {auction.image.trim() !== ""
-          ? <img src={auction.image} alt={auction.title} className="auction-images__item" />
+          ? <img src={auction.image} alt={auction.title} className="auction-images__item"/>
           : <div className="auction-images__placeholder">{auction.title}</div>
         }
       </div>

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 import { Auction, getMyAuctions } from "../../api/auction";
 import { AuctionTable } from "../uiElements/auctionTable/AuctionTable";
@@ -12,7 +13,7 @@ export const MyAuctions = () => {
   useEffect(() => {
     getMyAuctions().then((auctions) => {
       setMyAuctions(auctions.data);
-    });
+    }).catch(() => toast.error("Przepraszamy. Proszę spróbować pożniej"));
   }, []);
 
 
