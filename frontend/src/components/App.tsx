@@ -20,17 +20,17 @@ export function App() {
   return <>
     <AuthContext>
       <BrowserRouter>
-        <Navbar/>
+        <Navbar />
         <Routes>
-          <Route path="/" element={<Home/>}/>
-          <Route path="/register" element={<Register/>}/>
-          <Route path="/login" element={<Login/>}/>
-          <Route path="/profile" element={<AuthGuard><Profile/></AuthGuard>}/>
-          <Route path="/auction/add" element={<AuthGuard><CreateAuction/></AuthGuard>}/>
-          <Route path="/auction/:id" element={<Auction/>}/>
+          <Route path="/" element={<Home />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/profile" element={<AuthGuard><Profile /></AuthGuard>} />
+          <Route path="/auction/add" element={<AuthGuard><CreateAuction /></AuthGuard>} />
+          <Route path="/auction/:id" element={<Auction />} />
         </Routes>
       </BrowserRouter>
-      <ToastContainer/>
+      <ToastContainer />
     </AuthContext>
   </>;
 }

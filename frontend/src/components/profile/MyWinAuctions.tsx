@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
-import { Auction, getMyAuctions, getMyWinAuctions } from "../../api/auction";
+import { Auction, getMyWinAuctions } from "../../api/auction";
 import { AuctionTable } from "../uiElements/auctionTable/AuctionTable";
 
 import "./MyAuctions.css";
@@ -19,6 +19,6 @@ export const MyWinAuctions = () => {
 
   return <div className="my-auctions">
     <h1>Moje wygrane aukcje</h1>
-    <AuctionTable auctions={auctions}/>
+    <AuctionTable auctions={auctions} />
   </div>;
 };

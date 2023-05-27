@@ -44,22 +44,22 @@ const Register: FunctionComponent = () => {
           <form onSubmit={onRegister}>
             {errorMessages.map(error => <div style={{ color: "red" }}>{error}</div>)}
             <div className="register-form-field">
-              <input className="register-input" name="firstName" placeholder="Imię" type="text"/>
+              <input className="register-input" name="firstName" placeholder="Imię" type="text" />
             </div>
             <div className="register-form-field">
-              <input className="register-input" name="lastName" placeholder="Nazwisko" type="text"/>
+              <input className="register-input" name="lastName" placeholder="Nazwisko" type="text" />
             </div>
             <div className="register-form-field">
-              <input className="register-input" name="email" placeholder="Email" type="email"/>
+              <input className="register-input" name="email" placeholder="Email" type="email" />
             </div>
             <div className="register-form-field">
-              <input className="register-input" name="password" placeholder="Haslo" type="password"/>
+              <input className="register-input" name="password" placeholder="Haslo" type="password" />
             </div>
             <div className="register-form-field">
-              <input className="register-input" name="city" placeholder="Miasto" type="text"/>
+              <input className="register-input" name="city" placeholder="Miasto" type="text" />
             </div>
             <div className="register-form-field">
-              <input className="register-input" name="street" placeholder="Ulica" type="text"/>
+              <input className="register-input" name="street" placeholder="Ulica" type="text" />
             </div>
             <div className="register-form-button">
               <button className="button" type="submit">Zarejestruj się</button>

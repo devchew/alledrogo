@@ -19,6 +19,6 @@ export const MyAuctions = () => {
 
   return <div className="my-auctions">
     <h1>Moje aukcje</h1>
-    <AuctionTable auctions={auctions}/>
+    <AuctionTable auctions={auctions} />
   </div>;
 };

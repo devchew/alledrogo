@@ -6,10 +6,10 @@
     flex: 1;
 }
 
-.profile-info-form-fields.register-form-fields{
+.profile-info-form-fields.register-form-fields {
     width: 80%;
 }
 
-.profile-form.register-form-button .button--save{
+.profile-form.register-form-button .button--save {
     background-color: #ff3f3f;
 }

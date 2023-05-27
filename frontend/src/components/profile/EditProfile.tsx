@@ -51,28 +51,28 @@ export const EditProfile = () => {
           {errorMessages.map(error => <div style={{ color: "red" }}>{error}</div>)}
           <div className="register-form-field">
             <input defaultValue={user.firstName} disabled={isDisabled} className="register-input" name="firstName"
-                   placeholder="Imię" type="text"/>
+                   placeholder="Imię" type="text" />
           </div>
           <div className="register-form-field">
             <input defaultValue={user.lastName} disabled={isDisabled} className="register-input" name="lastName"
-                   placeholder="Nazwisko" type="text"/>
+                   placeholder="Nazwisko" type="text" />
           </div>
           <div className="register-form-field">
             <input defaultValue={user.email} disabled={isDisabled} className="register-input" name="email"
-                   placeholder="Email" type="email"/>
+                   placeholder="Email" type="email" />
           </div>
           <div className="register-form-field">
             <input defaultValue={user.city} disabled={isDisabled} className="register-input" name="city"
-                   placeholder="Miasto" type="text"/>
+                   placeholder="Miasto" type="text" />
           </div>
           <div className="register-form-field">
             <input defaultValue={user.street} disabled={isDisabled} className="register-input" name="street"
-                   placeholder="Ulica" type="text"/>
+                   placeholder="Ulica" type="text" />
           </div>
           <div className="profile-form register-form-button">
             {!isDisabled && <button className="button button--save" type="submit">Zapisz</button>}
             {isDisabled &&
-                <button onClick={() => setIsDisabled(false)} className="button" type="button">Edytuj</button>}
+              <button onClick={() => setIsDisabled(false)} className="button" type="button">Edytuj</button>}
           </div>
         </form>
       </div>

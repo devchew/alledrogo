@@ -25,10 +25,10 @@ const Login: FunctionComponent = () => {
         <div className="login-form-fields">
           <form onSubmit={onLogin}>
             <div className="login-form-field">
-              <input className="login-input" name="email" placeholder="Email" type="email"/>
+              <input className="login-input" name="email" placeholder="Email" type="email" />
             </div>
             <div className="login-form-field">
-              <input className="login-input" name="password" placeholder="Haslo" type="password"/>
+              <input className="login-input" name="password" placeholder="Haslo" type="password" />
             </div>
             <div className="login-form-button">
               <button className="button" type="submit">Zaloguj</button>

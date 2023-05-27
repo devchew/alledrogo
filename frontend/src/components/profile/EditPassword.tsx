@@ -11,7 +11,7 @@ export const EditPassword = () => {
   const [errorMessages, setErrorMessages] = useState<string[]>([]);
   const onSubmit = (event: SubmitEvent) => {
     event.preventDefault();
-    setErrorMessages([])
+    setErrorMessages([]);
 
     const data = new FormData(event.target as HTMLFormElement);
     const oldPassword = data.get("oldPassword").toString();
@@ -42,15 +42,15 @@ export const EditPassword = () => {
         {errorMessages.map(error => <div style={{ color: "red" }}>{error}</div>)}
         <div className="register-form-field">
           <input className="register-input" name="oldPassword"
-                 placeholder="Stare hasło" type="text"/>
+                 placeholder="Stare hasło" type="text" />
         </div>
         <div className="register-form-field">
           <input className="register-input" name="newPassword"
-                 placeholder="nowe hasło" type="text"/>
+                 placeholder="nowe hasło" type="text" />
         </div>
         <div className="register-form-field">
           <input className="register-input" name="reNewPassword"
-                 placeholder="powtórz nowe hasło" type="text"/>
+                 placeholder="powtórz nowe hasło" type="text" />
         </div>
         <div className="register-form-button">
           <button className="button" type="submit">Zmień hasło</button>

@@ -17,26 +17,26 @@ export const Profile = () => {
 
   switch (activeSection) {
     case "profile":
-      element = <EditProfile/>;
+      element = <EditProfile />;
       break;
     case "password":
-      element = <EditPassword/>;
+      element = <EditPassword />;
       break;
     case "my-auctions":
-      element = <MyAuctions/>;
+      element = <MyAuctions />;
       break;
     case "my-win-auctions":
-      element = <MyWinAuctions/>;
+      element = <MyWinAuctions />;
       break;
     case "my-bids":
-      element = <BidAuctions/>;
+      element = <BidAuctions />;
       break;
     default:
-      element = <EditProfile/>;
+      element = <EditProfile />;
       break;
   }
   return <div className="profile-page">
-    <Sidebar section={activeSection} onClick={setActiveSection}/>
+    <Sidebar section={activeSection} onClick={setActiveSection} />
     {element}
   </div>;
 

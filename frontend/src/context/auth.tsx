@@ -51,7 +51,7 @@ export const AuthContext: React.Component = ({ children }) => {
     */
     getProfile().then(res => {
       setUser(res.data);
-    })
+    });
     if (!token) {
       return;
     }

@@ -1,19 +1,12 @@
-import { AuthService } from './auth.service';
-import {
-  Body,
-  Controller,
-  Patch,
-  Post,
-  Request,
-  UseGuards,
-} from '@nestjs/common';
-import { ApiBearerAuth, ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { RegisterDto } from '../auction/dto/user/register.dto';
-import { LoginDto } from '../auction/dto/user/login.dto';
-import { TokenDto } from '../auction/dto/user/token.dto';
-import { AuthGuard } from '../guards/auth-guard/AuthGuard.guards';
-import { ChangePasswordDto } from '../auction/dto/user/change-password.dto';
-import { AuthorisedRequest } from '../types/request/request.type';
+import { AuthService } from "./auth.service";
+import { Body, Controller, Patch, Post, Request, UseGuards } from "@nestjs/common";
+import { ApiBearerAuth, ApiBody, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { RegisterDto } from "../auction/dto/user/register.dto";
+import { LoginDto } from "../auction/dto/user/login.dto";
+import { TokenDto } from "../auction/dto/user/token.dto";
+import { AuthGuard } from "../guards/auth-guard/AuthGuard.guards";
+import { ChangePasswordDto } from "../auction/dto/user/change-password.dto";
+import { AuthorisedRequest } from "../types/request/request.type";
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -54,7 +47,7 @@ export class AuthController {
     return this.authService.userLogin(loginDto);
   }
 
-  @Patch('change-password')
+  @Patch("change-password")
   @UseGuards(AuthGuard)
   @ApiBearerAuth()
   @ApiBody({ type: ChangePasswordDto })

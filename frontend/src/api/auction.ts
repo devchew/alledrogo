@@ -1,8 +1,11 @@
 import {
-  Endpoint_Auction_All, Endpoint_Auction_bid,
+  Endpoint_Auction_All,
+  Endpoint_Auction_bid,
   Endpoint_Auction_Bid,
-  Endpoint_Auction_Create, Endpoint_Auction_my,
-  Endpoint_Auction_Single, Endpoint_Auction_win,
+  Endpoint_Auction_Create,
+  Endpoint_Auction_my,
+  Endpoint_Auction_Single,
+  Endpoint_Auction_win,
   http
 } from "./http";
 
@@ -45,3 +48,5 @@ export const createAuction = (auction: {
 }) => http.post<Auction>(Endpoint_Auction_Create(), auction);
 
 export const bidAuction = (id: Auction["id"], price: Auction["price"]) => http.post(Endpoint_Auction_Bid(id), { price });
+
+export const deleteAuction = (id: string) => http.delete<Auction>(Endpoint_Auction_Single(id));

@@ -19,12 +19,12 @@ const Home: FunctionComponent = () => {
   }, []);
 
   return (<>
-    <Hero/>
+    <Hero />
     <Heading>Alledrogo, nasze aukcje {isAuth ? "👍" : "❌"}</Heading>
     <div className="home-auctions">
       {auctions.map(auction =>
         <div className="home-auctions__item">
-          <AuctionPreview auction={auction}/>
+          <AuctionPreview auction={auction} />
         </div>
       )}
     </div>

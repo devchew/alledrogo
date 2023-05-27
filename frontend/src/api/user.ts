@@ -7,5 +7,6 @@ interface EditUser {
   city: string;
   street: string;
 }
+
 export const getProfile = () => http.get(Endpoint_User_Profile());
 export const editUser = (user: EditUser) => http.patch(Endpoint_User(), user);

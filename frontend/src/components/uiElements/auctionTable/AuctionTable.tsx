@@ -16,10 +16,10 @@ export const AuctionTable = ({ auctions }: AuctionTableType) => {
   const element = auctions.map(item => <tr key={item.id}>
     <td className="auction-table-item-image">
       <Link to={`/auction/${item.id}`}>
-        <img src={item.image} alt="auction image"/>
+        <img src={item.image} alt="auction image" />
       </Link></td>
     <td className="auction-table-item-winner">{item.bids[0]?.name ?? "---"}</td>
-    <td className="auction-table-item-price">{item.status ? 'Zakończona' : getTimeRemaining(item.endDate)}</td>
+    <td className="auction-table-item-price">{item.status ? "Zakończona" : getTimeRemaining(item.endDate)}</td>
     <td className="auction-table-item-price">{item.price}</td>
   </tr>);
 

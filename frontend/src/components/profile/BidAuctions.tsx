@@ -19,6 +19,6 @@ export const BidAuctions = () => {
 
   return <div className="my-auctions">
     <h1>Moje licytacje</h1>
-    <AuctionTable auctions={auctions}/>
+    <AuctionTable auctions={auctions} />
   </div>;
 };
